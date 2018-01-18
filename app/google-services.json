@@ -1,0 +1,107 @@
+{
+  "project_info": {
+    "project_number": "556627205190",
+    "firebase_url": "https://dbtan-9704e.firebaseio.com",
+    "project_id": "dbtan-9704e",
+    "storage_bucket": "dbtan-9704e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:556627205190:android:337ab7cfe67f59d2",
+        "android_client_info": {
+          "package_name": "com.example.ramakanta.tan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "556627205190-tl86r2v2b87nq4tsh0khu7ava4j028q7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ramakanta.tan",
+            "certificate_hash": "7a887c162a96d55aa55dc1f8e93ee38c6add6db2"
+          }
+        },
+        {
+          "client_id": "556627205190-rm86ndv2d5imvv742nbd8rm0qbhfkbrk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ramakanta.tan",
+            "certificate_hash": "382629d320fcb3a6474a007c05f37fe9a03e1b4d"
+          }
+        },
+        {
+          "client_id": "556627205190-e005ieiuffoh28idks78sa5ppdrptk0h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBW7RHLAy2iockG28EM7-2AKF8Dgo_YSiU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "556627205190-e005ieiuffoh28idks78sa5ppdrptk0h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:556627205190:android:27b4c69815d5d3c3",
+        "android_client_info": {
+          "package_name": "com.example.ramakanta.theanonymousnetwork"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "556627205190-a6hfq6g5713aksghrmprnk5o77v1o78u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ramakanta.theanonymousnetwork",
+            "certificate_hash": "7a887c162a96d55aa55dc1f8e93ee38c6add6db2"
+          }
+        },
+        {
+          "client_id": "556627205190-e005ieiuffoh28idks78sa5ppdrptk0h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBW7RHLAy2iockG28EM7-2AKF8Dgo_YSiU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "556627205190-e005ieiuffoh28idks78sa5ppdrptk0h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
