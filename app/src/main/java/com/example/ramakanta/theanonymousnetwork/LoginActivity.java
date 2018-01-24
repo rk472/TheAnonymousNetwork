@@ -16,13 +16,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import br.com.simplepass.loading_button_lib.interfaces.OnAnimationEndListener;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private FirebaseAuth mAuthenticate;
+    private FirebaseAuth mAuth;
     private CircularProgressButton circularProgressButton;
     private EditText uName,upass;
     private LinearLayout linearLayout;
@@ -32,7 +33,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_login);
-        mAuthenticate = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser() != null) {
+            Intent i = new Intent(LoginActivity.this, ProfileActivity.class);
+            startActivity(i);
+            finish();
+        }
         circularProgressButton = findViewById(R.id.login_btn);
         uName = findViewById(R.id.ltUserName);
         upass = findViewById(R.id.ltPassword);
@@ -57,13 +63,16 @@ public class LoginActivity extends AppCompatActivity {
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-                            mAuthenticate.signInWithEmailAndPassword(uName.getText().toString(), upass.getText().toString())
+                            mAuth.signInWithEmailAndPassword(uName.getText().toString(), upass.getText().toString())
                                     .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
                                             if (task.isSuccessful()) {
                                                 circularProgressButton.revertAnimation();
                                                 circularProgressButton.setBackgroundResource(R.drawable.btnshape11);
+                                                Intent i = new Intent(LoginActivity.this, ProfileActivity.class);
+                                                startActivity(i);
+                                                finish();
                                             } else {
                                                 circularProgressButton.revertAnimation(new OnAnimationEndListener() {
                                                     @Override
@@ -102,19 +111,5 @@ public class LoginActivity extends AppCompatActivity {
         circularProgressButton.setBackgroundResource(R.drawable.btnshape11);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mAuthenticate.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if(mAuthenticate.getCurrentUser() != null){
-                    Intent i=new Intent(LoginActivity.this,ProfileActivity.class);
-                    startActivity(i);
-                    finish();
-                }
-            }
-        });
 
-    }
 }

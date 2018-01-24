@@ -3,6 +3,7 @@ package com.example.ramakanta.theanonymousnetwork;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -41,8 +42,6 @@ public class ProfileActivity extends AppCompatActivity
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
         uId = mAuth.getCurrentUser().getUid();
-
-
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -107,9 +106,9 @@ public class ProfileActivity extends AppCompatActivity
                         public void onClick(DialogInterface dialog, int which) {
                             mAuth.signOut();
                             Intent i = new Intent(ProfileActivity.this,LoginActivity.class);
-                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            finish();
                             startActivity(i);
+                            finish();
+
                         }
                     })
                     .setNegativeButton("No , Don't" , null)
@@ -144,4 +143,6 @@ public class ProfileActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }
