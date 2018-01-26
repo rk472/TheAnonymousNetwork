@@ -122,17 +122,17 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="2dp"
                         android:fontFamily="@font/play_bold"
-                        android:text="Designation"
+                        android:text="Roll No"
                         android:textColor="@color/colorAccentRed"
                         android:textSize="15dp" />
                     <TextView
-                        android:id="@+id/designation_profile"
+                        android:id="@+id/roll_profile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
                         android:fontFamily="@font/play"
-                        android:text="Faculty"
+                        android:text="14IMCA030"
                         android:textColor="@color/colorAccentWhite"
                         android:textSize="15dp" />
 
@@ -153,6 +153,7 @@
 
             <TextView
                 android:layout_width="300dp"
+                android:id="@+id/bio_profile"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/play_bold"
                 android:padding="5dp"
