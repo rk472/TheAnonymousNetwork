@@ -29,7 +29,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:elevation="4dp"
-        app:rippleColor="@color/colorAccentLight"
         app:srcCompat="@drawable/vector_edit_24dp"
         tools:ignore="VectorDrawableCompat" />
 

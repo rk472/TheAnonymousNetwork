@@ -66,13 +66,13 @@ public class RegisterOnceActivity extends AppCompatActivity {
     private StorageReference storeProfileThumbImage;
     private Bitmap thumb_bitmap;
     private ProgressDialog loadingBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_register_once);
-
         //initialization
         circularProgressButton = findViewById(R.id.btn_reg);
         linearLayout = findViewById(R.id.register_layout);
@@ -94,8 +94,6 @@ public class RegisterOnceActivity extends AppCompatActivity {
         userRef= FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
         storeProfileImage= FirebaseStorage.getInstance().getReference().child("user_profile_image");
         storeProfileThumbImage=FirebaseStorage.getInstance().getReference().child("user_profile_thumb_image");
-
-
         //Spinner Item Insertion
         adapter = ArrayAdapter.createFromResource(this , R.array.gender_select,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -109,7 +107,6 @@ public class RegisterOnceActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
         //Select the Date
         myCalendar= Calendar.getInstance();
         date_pick = new DatePickerDialog.OnDateSetListener() {
@@ -122,22 +119,16 @@ public class RegisterOnceActivity extends AppCompatActivity {
                 updateLabel();
             }
         };
-
         //select image
         image_reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             /*   Intent galleryIntent=new Intent();
-                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setType("image/*");
-                startActivityForResult(galleryIntent,1);*/
                 CropImage.activity()
                         .setGuidelines(CropImageView.Guidelines.ON)
                         .setAspectRatio(1,1)
                         .start(RegisterOnceActivity.this);
             }
         });
-
         //Submit button click event
         circularProgressButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,15 +144,6 @@ public class RegisterOnceActivity extends AppCompatActivity {
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-                            /*userRef.child("u_name").setValue(s_name_reg);
-                            userRef.child("u_roll").setValue(s_roll_reg);
-                            userRef.child("u_lives").setValue(s_lives_reg);
-                            userRef.child("u_joined").setValue(s_joined_reg);
-                            userRef.child("u_phone").setValue(s_phone_reg);
-                            userRef.child("u_email").setValue(s_email_reg);
-                            userRef.child("u_dob").setValue(s_dob_reg);
-                            userRef.child("u_gender").setValue(s_gender_reg);
-                            userRef.child("u_bio").setValue(s_bio_reg);*/
                             Map update_user_data=new HashMap();
                             update_user_data.put("u_image",downloadUrl);
                             update_user_data.put("u_thumb_image",thumb_downloadUrl);
@@ -187,14 +169,12 @@ public class RegisterOnceActivity extends AppCompatActivity {
                             });
                         }
                         return null;
-
                     }
                     @Override
                     protected void onPostExecute(String s)
                     {
                             circularProgressButton.revertAnimation();
                             circularProgressButton.setBackgroundResource(R.drawable.btnshape11);
-
                     }
                 };
                 circularProgressButton.startAnimation();
@@ -202,7 +182,6 @@ public class RegisterOnceActivity extends AppCompatActivity {
             }
         });
     }
-
     private void extractAllData() {
         s_name_reg=name_reg.getText().toString();
         s_lives_reg=lives_reg.getText().toString();
@@ -213,9 +192,7 @@ public class RegisterOnceActivity extends AppCompatActivity {
         s_joined_reg=joined_reg.getText().toString();
         s_bio_reg=bio_reg.getText().toString();
     }
-
     private boolean validateAllFields() {
-
         if(s_name_reg.equals("")||s_gender_reg.equals("Select Your Gender")||s_lives_reg.equals("")||s_dob_reg.equals("")||s_phone_reg.equals("")||s_email_reg.equals("")||s_joined_reg.equals("")||s_bio_reg.equals("")) {
             Snackbar snackbar = Snackbar
                     .make(linearLayout , "Fields Cannot Be Blank", Snackbar.LENGTH_SHORT);
@@ -227,10 +204,8 @@ public class RegisterOnceActivity extends AppCompatActivity {
             snackbar.show();
             return false;
         }
-
         return true;
     }
-
     @Override
     protected void onResume()
     {
@@ -251,7 +226,6 @@ public class RegisterOnceActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
                 loadingBar.setMessage("Wait while We are updating your Profile Picture..");
@@ -277,7 +251,6 @@ public class RegisterOnceActivity extends AppCompatActivity {
                 filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-
                         if(task.isSuccessful()){
                             Toast.makeText(RegisterOnceActivity.this,"Saving Your Profile picture...",Toast.LENGTH_SHORT).show();
                             downloadUrl=task.getResult().getDownloadUrl().toString();
@@ -291,9 +264,7 @@ public class RegisterOnceActivity extends AppCompatActivity {
                                             .into(image_reg, new Callback() {
                                                 @Override
                                                 public void onSuccess() {
-
                                                 }
-
                                                 @Override
                                                 public void onError() {
                                                     Picasso.with(RegisterOnceActivity.this).load(thumb_downloadUrl).placeholder(R.drawable.add_image).into(image_reg);
@@ -301,8 +272,6 @@ public class RegisterOnceActivity extends AppCompatActivity {
                                             });
                                 }
                             });
-
-
                         }else{
                             Toast.makeText(RegisterOnceActivity.this,task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                         }

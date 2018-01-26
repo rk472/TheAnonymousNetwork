@@ -5,7 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.ramakanta.theanonymousnetwork.SplashActivity"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/colorPrimary">
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/splash_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/favicon"/>
 
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/avi"
@@ -14,33 +22,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="67dp"
+        android:layout_marginBottom="36dp"
         android:visibility="visible"
-        app:indicatorColor="@color/colorAccent"
+        app:indicatorColor="@color/colorAccentRed"
         app:indicatorName="LineSpinFadeLoaderIndicator" />
-
-    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/logo_splash"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="49dp"
-        android:src="@drawable/favicon"
-        app:civ_border_color="#ffffff"
-        app:civ_border_width="2dp" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/logo_splash"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:fontFamily="@font/merriweather"
-        android:text="The Anonymous Network"
-        android:textColor="#ffffff"
-        android:textSize="23dp" />
-
 
 </RelativeLayout>

@@ -7,6 +7,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.ramakanta.theanonymousnetwork.ProfileActivity"
     android:orientation="vertical"
+    android:background="@color/colorPrimaryDark"
     tools:showIn="@layout/app_bar_profile">
 
 
@@ -35,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/merriweather"
+                android:fontFamily="@font/play_bold"
                 android:text="John Snow"
                 android:textColor="#ffffff"
                 android:textSize="20dp" />
@@ -52,6 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:weightSum="3"
+                android:background="@color/colorPrimary"
                 android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="0dp"
@@ -59,14 +61,15 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="2dp"
-                        android:fontFamily="@font/merriweather"
+                        android:fontFamily="@font/play_bold"
                         android:text="Lives In"
-                        android:textColor="#7c7c7c"
+                        android:textColor="@color/colorAccentRed"
                         android:textSize="15dp" />
                     <TextView
                         android:id="@+id/lives_in_profile"
@@ -74,9 +77,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
-                        android:fontFamily="@font/merriweather"
+                        android:fontFamily="@font/play"
                         android:text="Cuttack"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorAccentWhite"
                         android:textSize="15dp" />
 
                 </LinearLayout>
@@ -91,9 +94,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="2dp"
-                        android:fontFamily="@font/merriweather"
+                        android:fontFamily="@font/play_bold"
                         android:text="Joined In"
-                        android:textColor="#7c7c7c"
+                        android:textColor="@color/colorAccentRed"
                         android:textSize="15dp" />
                     <TextView
                         android:id="@+id/joined_imca_profile"
@@ -101,9 +104,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
-                        android:fontFamily="@font/merriweather"
+                        android:fontFamily="@font/play"
                         android:text="2015"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorAccentWhite"
                         android:textSize="15dp" />
 
                 </LinearLayout>
@@ -118,9 +121,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="2dp"
-                        android:fontFamily="@font/merriweather"
+                        android:fontFamily="@font/play_bold"
                         android:text="Designation"
-                        android:textColor="#7c7c7c"
+                        android:textColor="@color/colorAccentRed"
                         android:textSize="15dp" />
                     <TextView
                         android:id="@+id/designation_profile"
@@ -128,9 +131,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
-                        android:fontFamily="@font/merriweather"
+                        android:fontFamily="@font/play"
                         android:text="Faculty"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorAccentWhite"
                         android:textSize="15dp" />
 
                 </LinearLayout>
@@ -151,11 +154,11 @@
             <TextView
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/merriweather"
+                android:fontFamily="@font/play_bold"
                 android:padding="5dp"
                 android:text="@string/bio"
                 android:textAlignment="center"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorAccentWhite"
                 android:textSize="16dp" />
 
             <LinearLayout
@@ -172,11 +175,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/gender_profile"
-                    android:fontFamily="@font/merriweather"
+                    android:fontFamily="@font/play"
                     android:layout_marginLeft="30dp"
                     android:text="Male"
                     android:textSize="16dp"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorAccentWhite"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="300dp"
@@ -192,11 +195,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/dob_profile"
-                    android:fontFamily="@font/merriweather"
+                    android:fontFamily="@font/play"
                     android:layout_marginLeft="30dp"
                     android:text="22/04/1997"
                     android:textSize="16dp"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorAccentWhite"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="300dp"
@@ -212,11 +215,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/mail_profile"
-                    android:fontFamily="@font/merriweather"
+                    android:fontFamily="@font/play"
                     android:layout_marginLeft="30dp"
                     android:text="example@mail.com"
                     android:textSize="16dp"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorAccentWhite"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="300dp"
@@ -232,11 +235,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/phone_profile"
-                    android:fontFamily="@font/merriweather"
+                    android:fontFamily="@font/play"
                     android:layout_marginLeft="30dp"
-                    android:text="Male"
+                    android:text="9999999999"
                     android:textSize="16dp"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorAccentWhite"/>
             </LinearLayout>
 
         </LinearLayout>

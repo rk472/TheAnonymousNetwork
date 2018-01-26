@@ -1,9 +1,14 @@
 package com.example.ramakanta.theanonymousnetwork;
 
+import android.annotation.SuppressLint;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Pair;
+import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
@@ -16,7 +21,9 @@ public class SplashActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_splash);
 
-        final Intent i = new Intent(SplashActivity.this,LoginActivity.class);
+        ImageView mImage = findViewById(R.id.splash_logo);
+        final Intent shareIntent = new Intent(SplashActivity.this , LoginActivity.class);
+
         Thread timer = new Thread(){
             public void run(){
                 try{
@@ -24,7 +31,7 @@ public class SplashActivity extends AppCompatActivity {
                 }catch(Exception e){
                     e.printStackTrace();
                 }finally{
-                    startActivity(i);
+                    startActivity(shareIntent);
                     finish();
                 }
             }
