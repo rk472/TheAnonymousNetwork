@@ -3,6 +3,8 @@ package com.example.ramakanta.theanonymousnetwork;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -18,20 +20,32 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import id.zelory.compressor.Compressor;
 
 public class ProfileActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -42,7 +56,9 @@ public class ProfileActivity extends AppCompatActivity
     private DatabaseReference mDatabase;
     private String uId;
     private ProgressDialog mProgress;
-
+    private ImageButton uploadImage;
+    private Bitmap thumb_bitmap;
+    private StorageReference storeProfileImage,storeProfileThumbImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +77,8 @@ public class ProfileActivity extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         uId = mAuth.getCurrentUser().getUid();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(uId);
-
+        storeProfileImage= FirebaseStorage.getInstance().getReference().child("user_profile_image");
+        storeProfileThumbImage=FirebaseStorage.getInstance().getReference().child("user_profile_thumb_image");
         //Assign all fields
         nameProf = findViewById(R.id.name_profile);
         rollProf = findViewById(R.id.roll_profile);
@@ -79,7 +96,17 @@ public class ProfileActivity extends AppCompatActivity
         navImage=header.findViewById(R.id.nav_image);
         navName=header.findViewById(R.id.nav_name);
         navEmail=header.findViewById(R.id.nav_email);
+        uploadImage=findViewById(R.id.upload_prof);
 
+        uploadImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CropImage.activity()
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .setAspectRatio(1,1)
+                        .start(ProfileActivity.this);
+            }
+        });
         //database retrieval
         mDatabase.keepSynced(true);
         mDatabase.addValueEventListener(new ValueEventListener() {
@@ -212,6 +239,72 @@ public class ProfileActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                mProgress.setMessage("Wait while We are updating your Profile Picture..");
+                mProgress.setTitle("Please Wait");
+                mProgress.show();
+                Uri resultUri = result.getUri();
+                String uid=mAuth.getCurrentUser().getUid();
+                File thumb_filePath=new File(resultUri.getPath());
+                try{
+                    thumb_bitmap=new Compressor(this)
+                            .setMaxHeight(200)
+                            .setMaxHeight(200)
+                            .setQuality(50)
+                            .compressToBitmap(thumb_filePath);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+                thumb_bitmap.compress(Bitmap.CompressFormat.JPEG,50,byteArrayOutputStream);
+                final byte[] mbyte=byteArrayOutputStream.toByteArray();
+                StorageReference filePath=storeProfileImage.child(uid+".jpg");
+                final StorageReference thumbFilePath=storeProfileThumbImage.child(uid+".jpg");
+                filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(ProfileActivity.this,"Saving Your Profile picture...",Toast.LENGTH_SHORT).show();
+                            final String downloadUrl=task.getResult().getDownloadUrl().toString();
+
+                            UploadTask uploadTask=thumbFilePath.putBytes(mbyte);
+                            uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> thumb_task) {
+                                    final String thumb_downloadUrl=thumb_task.getResult().getDownloadUrl().toString();
+                                    mDatabase.child("u_image").setValue(downloadUrl);
+                                    mDatabase.child("u_thumb_image").setValue(thumb_downloadUrl);
+                                    Picasso.with(ProfileActivity.this).load(thumb_downloadUrl).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.add_image)
+                                            .into(logoProf, new Callback() {
+                                                @Override
+                                                public void onSuccess() {
+                                                }
+                                                @Override
+                                                public void onError() {
+                                                    Picasso.with(ProfileActivity.this).load(thumb_downloadUrl).placeholder(R.drawable.add_image)
+                                            .into(logoProf);
+                                                }
+                                            });
+                                }
+                            });
+                        }else{
+                            Toast.makeText(ProfileActivity.this,task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                        mProgress.dismiss();
+                    }
+                });
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+                Toast.makeText(ProfileActivity.this,error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
 
