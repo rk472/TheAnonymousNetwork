@@ -31,10 +31,7 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity
-            android:name=".HomeActivity"
-            android:label="@string/home_title"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".HomeActivity"></activity>
     </application>
 
 </manifest>
