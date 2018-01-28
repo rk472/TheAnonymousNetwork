@@ -22,8 +22,8 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/logo_profile"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/logo_def"
                 android:layout_gravity="center"
@@ -37,7 +37,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/play_bold"
-                android:text="John Snow"
+                android:text="User Name"
                 android:textColor="#ffffff"
                 android:textSize="20dp" />
 
@@ -78,7 +78,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
                         android:fontFamily="@font/play"
-                        android:text="Cuttack"
+                        android:text="City Name"
                         android:textColor="@color/colorAccentWhite"
                         android:textSize="15dp" />
 
@@ -105,7 +105,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
                         android:fontFamily="@font/play"
-                        android:text="2015"
+                        android:text="joining year"
                         android:textColor="@color/colorAccentWhite"
                         android:textSize="15dp" />
 
@@ -132,7 +132,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
                         android:fontFamily="@font/play"
-                        android:text="14IMCA030"
+                        android:text="Roll No"
                         android:textColor="@color/colorAccentWhite"
                         android:textSize="15dp" />
 
@@ -157,7 +157,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/play_bold"
                 android:padding="5dp"
-                android:text="@string/bio"
+                android:text="Your Bio goes Here"
                 android:textAlignment="center"
                 android:textColor="@color/colorAccentWhite"
                 android:textSize="16dp" />
@@ -178,7 +178,7 @@
                     android:id="@+id/gender_profile"
                     android:fontFamily="@font/play"
                     android:layout_marginLeft="30dp"
-                    android:text="Male"
+                    android:text="Gender"
                     android:textSize="16dp"
                     android:textColor="@color/colorAccentWhite"/>
             </LinearLayout>
@@ -198,7 +198,7 @@
                     android:id="@+id/dob_profile"
                     android:fontFamily="@font/play"
                     android:layout_marginLeft="30dp"
-                    android:text="22/04/1997"
+                    android:text="Date Of Birth"
                     android:textSize="16dp"
                     android:textColor="@color/colorAccentWhite"/>
             </LinearLayout>
@@ -218,7 +218,7 @@
                     android:id="@+id/mail_profile"
                     android:fontFamily="@font/play"
                     android:layout_marginLeft="30dp"
-                    android:text="example@mail.com"
+                    android:text="Email id"
                     android:textSize="16dp"
                     android:textColor="@color/colorAccentWhite"/>
             </LinearLayout>
@@ -238,7 +238,7 @@
                     android:id="@+id/phone_profile"
                     android:fontFamily="@font/play"
                     android:layout_marginLeft="30dp"
-                    android:text="9999999999"
+                    android:text="Phone no"
                     android:textSize="16dp"
                     android:textColor="@color/colorAccentWhite"/>
             </LinearLayout>

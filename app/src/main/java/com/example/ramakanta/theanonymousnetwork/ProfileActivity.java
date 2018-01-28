@@ -74,6 +74,7 @@ public class ProfileActivity extends AppCompatActivity
         phoneProf = findViewById(R.id.phone_profile);
         logoProf = findViewById(R.id.logo_profile);
         NavigationView navView=findViewById(R.id.nav_view);
+        navView.setCheckedItem(R.id.nav_profile);
         View header=navView.getHeaderView(0);
         navImage=header.findViewById(R.id.nav_image);
         navName=header.findViewById(R.id.nav_name);
