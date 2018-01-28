@@ -38,7 +38,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
             app:elevation="4dp"
-            app:srcCompat="@drawable/vector_edit_24dp"
+            app:srcCompat="@drawable/add_fab"
             tools:ignore="VectorDrawableCompat" />
 
     </android.support.design.widget.CoordinatorLayout>
