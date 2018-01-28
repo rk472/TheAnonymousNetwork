@@ -1,5 +1,6 @@
 package com.example.ramakanta.theanonymousnetwork;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,13 +27,23 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth mAuth;
+    private TextView nameProf,livesProf,joinedProf,rollProf,bioProf,genderProf,dobProf,mailProf,phoneProf,navName,navEmail;
+    private CircleImageView logoProf,navImage;
     private DatabaseReference mDatabase;
     private String uId;
+    private ProgressDialog mProgress;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,19 +51,85 @@ public class ProfileActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mAuth = FirebaseAuth.getInstance();
+        mProgress = new ProgressDialog(this);
+        mProgress.setTitle("Please Wait");
+        mProgress.setMessage("Loading your Profile");
+        mProgress.setCancelable(false);
+        mProgress.setCanceledOnTouchOutside(false);
+        mProgress.show();
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
+        mAuth = FirebaseAuth.getInstance();
         uId = mAuth.getCurrentUser().getUid();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(uId);
+
+        //Assign all fields
+        nameProf = findViewById(R.id.name_profile);
+        rollProf = findViewById(R.id.roll_profile);
+        livesProf = findViewById(R.id.lives_in_profile);
+        joinedProf = findViewById(R.id.joined_imca_profile);
+        bioProf = findViewById(R.id.bio_profile);
+        genderProf = findViewById(R.id.gender_profile);
+        dobProf = findViewById(R.id.dob_profile);
+        mailProf = findViewById(R.id.mail_profile);
+        phoneProf = findViewById(R.id.phone_profile);
+        logoProf = findViewById(R.id.logo_profile);
+        NavigationView navView=findViewById(R.id.nav_view);
+        View header=navView.getHeaderView(0);
+        navImage=header.findViewById(R.id.nav_image);
+        navName=header.findViewById(R.id.nav_name);
+        navEmail=header.findViewById(R.id.nav_email);
+
+        //database retrieval
+        mDatabase.keepSynced(true);
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(!dataSnapshot.hasChild(uId)){
-                    Toast.makeText(ProfileActivity.this, "Don't Have Child", Toast.LENGTH_SHORT).show();
-                    Intent i=new Intent(ProfileActivity.this,RegisterOnceActivity.class);
-                    startActivity(i);
-                    finish();
-                }
+                String name=dataSnapshot.child("u_name").getValue().toString();
+                String lives=dataSnapshot.child("u_lives").getValue().toString();
+                String joined=dataSnapshot.child("u_joined").getValue().toString();
+                String phone=dataSnapshot.child("u_phone").getValue().toString();
+                String mail=dataSnapshot.child("u_email").getValue().toString();
+                String dob=dataSnapshot.child("u_dob").getValue().toString();
+                String gender=dataSnapshot.child("u_gender").getValue().toString();
+                String bio=dataSnapshot.child("u_bio").getValue().toString();
+                final String thumb_image=dataSnapshot.child("u_thumb_image").getValue().toString();
+                String roll=dataSnapshot.child("u_roll").getValue().toString();
+
+                nameProf.setText(name);
+                livesProf.setText(lives);
+                joinedProf.setText(joined);
+                phoneProf.setText(phone);
+                mailProf.setText(mail);
+                dobProf.setText(dob);
+                genderProf.setText(gender);
+                bioProf.setText(bio);
+                rollProf.setText(roll);
+                navName.setText(name);
+                navEmail.setText(mail);
+
+                Picasso.with(ProfileActivity.this).load(thumb_image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.logo_def)
+                        .into(logoProf, new Callback() {
+                            @Override
+                            public void onSuccess() {
+
+                            }
+                            @Override
+                            public void onError() {
+                                Picasso.with(ProfileActivity.this).load(thumb_image).placeholder(R.drawable.logo_def).into(logoProf);
+                            }
+                        });
+                mProgress.dismiss();
+                Picasso.with(ProfileActivity.this).load(thumb_image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.logo_def)
+                        .into(navImage, new Callback() {
+                            @Override
+                            public void onSuccess() {
+
+                            }
+                            @Override
+                            public void onError() {
+                                Picasso.with(ProfileActivity.this).load(thumb_image).placeholder(R.drawable.logo_def).into(navImage);
+                            }
+                        });
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -65,7 +144,7 @@ public class ProfileActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
-
+        //drawer initialization
         DrawerLayout drawer =  findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
