@@ -24,11 +24,13 @@
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".RegisterOnceActivity"></activity>
+        <activity android:name=".RegisterOnceActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <activity android:name=".HomeActivity"></activity>
     </application>
 
 </manifest>
