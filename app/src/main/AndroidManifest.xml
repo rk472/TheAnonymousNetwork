@@ -22,7 +22,7 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name=".LoginActivity" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".MainActivity"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".RegisterOnceActivity" />
@@ -31,7 +31,14 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".HomeActivity"></activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ramakanta.theanonymousnetwork.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

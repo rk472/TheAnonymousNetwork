@@ -1,5 +1,7 @@
 package com.example.ramakanta.theanonymousnetwork;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,8 +9,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -19,8 +19,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +37,6 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -47,107 +44,57 @@ import java.io.File;
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
 
-public class ProfileActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth mAuth;
-    private TextView nameProf,livesProf,joinedProf,rollProf,bioProf,genderProf,dobProf,mailProf,phoneProf,navName,navEmail;
-    private CircleImageView logoProf,navImage;
+    private CircleImageView navImage;
+    private TextView navName,navEmail;
     private DatabaseReference mDatabase;
     private String uId;
     private ProgressDialog mProgress;
-    private ImageButton uploadImage;
     private Bitmap thumb_bitmap;
     private StorageReference storeProfileImage,storeProfileThumbImage;
+    private FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        mProgress = new ProgressDialog(this);
-        mProgress.setTitle("Please Wait");
-        mProgress.setMessage("Loading your Profile");
-        mProgress.setCancelable(false);
-        mProgress.setCanceledOnTouchOutside(false);
-        mProgress.show();
-
+        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_profile);
+        navigationView.setCheckedItem(R.id.nav_profile);
+        View header=navigationView.getHeaderView(0);
+        navImage=header.findViewById(R.id.nav_image);
+        navName=header.findViewById(R.id.nav_name);
+        navEmail=header.findViewById(R.id.nav_email);
+        fragmentTransaction=getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.main_container,new ProfileFragment());
+        fragmentTransaction.commit();
         mAuth = FirebaseAuth.getInstance();
         uId = mAuth.getCurrentUser().getUid();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(uId);
         storeProfileImage= FirebaseStorage.getInstance().getReference().child("user_profile_image");
         storeProfileThumbImage=FirebaseStorage.getInstance().getReference().child("user_profile_thumb_image");
-        //Assign all fields
-        nameProf = findViewById(R.id.name_profile);
-        rollProf = findViewById(R.id.roll_profile);
-        livesProf = findViewById(R.id.lives_in_profile);
-        joinedProf = findViewById(R.id.joined_imca_profile);
-        bioProf = findViewById(R.id.bio_profile);
-        genderProf = findViewById(R.id.gender_profile);
-        dobProf = findViewById(R.id.dob_profile);
-        mailProf = findViewById(R.id.mail_profile);
-        phoneProf = findViewById(R.id.phone_profile);
-        logoProf = findViewById(R.id.logo_profile);
-        NavigationView navView=findViewById(R.id.nav_view);
-        navView.setCheckedItem(R.id.nav_profile);
-        View header=navView.getHeaderView(0);
-        navImage=header.findViewById(R.id.nav_image);
-        navName=header.findViewById(R.id.nav_name);
-        navEmail=header.findViewById(R.id.nav_email);
-        uploadImage=findViewById(R.id.upload_prof);
 
-        uploadImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CropImage.activity()
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .setAspectRatio(1,1)
-                        .start(ProfileActivity.this);
-            }
-        });
-        //database retrieval
-        mDatabase.keepSynced(true);
+        mProgress=new ProgressDialog(this);
+
+
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String name=dataSnapshot.child("u_name").getValue().toString();
-                String lives=dataSnapshot.child("u_lives").getValue().toString();
-                String joined=dataSnapshot.child("u_joined").getValue().toString();
-                String phone=dataSnapshot.child("u_phone").getValue().toString();
-                String mail=dataSnapshot.child("u_email").getValue().toString();
-                String dob=dataSnapshot.child("u_dob").getValue().toString();
-                String gender=dataSnapshot.child("u_gender").getValue().toString();
-                String bio=dataSnapshot.child("u_bio").getValue().toString();
+                navName.setText(dataSnapshot.child("u_name").getValue().toString());
+                navEmail.setText(dataSnapshot.child("u_email").getValue().toString());
                 final String thumb_image=dataSnapshot.child("u_thumb_image").getValue().toString();
-                String roll=dataSnapshot.child("u_roll").getValue().toString();
-
-                nameProf.setText(name);
-                livesProf.setText(lives);
-                joinedProf.setText(joined);
-                phoneProf.setText(phone);
-                mailProf.setText(mail);
-                dobProf.setText(dob);
-                genderProf.setText(gender);
-                bioProf.setText(bio);
-                rollProf.setText(roll);
-                navName.setText(name);
-                navEmail.setText(mail);
-
-                Picasso.with(ProfileActivity.this).load(thumb_image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.logo_def)
-                        .into(logoProf, new Callback() {
-                            @Override
-                            public void onSuccess() {
-
-                            }
-                            @Override
-                            public void onError() {
-                                Picasso.with(ProfileActivity.this).load(thumb_image).placeholder(R.drawable.logo_def).into(logoProf);
-                            }
-                        });
-                mProgress.dismiss();
-                Picasso.with(ProfileActivity.this).load(thumb_image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.logo_def)
+                Picasso.with(MainActivity.this).load(thumb_image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.logo_def)
                         .into(navImage, new Callback() {
                             @Override
                             public void onSuccess() {
@@ -155,32 +102,16 @@ public class ProfileActivity extends AppCompatActivity
                             }
                             @Override
                             public void onError() {
-                                Picasso.with(ProfileActivity.this).load(thumb_image).placeholder(R.drawable.logo_def).into(navImage);
+                                Picasso.with(MainActivity.this).load(thumb_image).placeholder(R.drawable.logo_def).into(navImage);
                             }
                         });
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
             }
         });
-
-        FloatingActionButton fab =  findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        //drawer initialization
-        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -212,7 +143,7 @@ public class ProfileActivity extends AppCompatActivity
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             mAuth.signOut();
-                            Intent i = new Intent(ProfileActivity.this,LoginActivity.class);
+                            Intent i = new Intent(MainActivity.this,LoginActivity.class);
                             startActivity(i);
                             finish();
 
@@ -221,6 +152,9 @@ public class ProfileActivity extends AppCompatActivity
                     .setNegativeButton("No , Don't" , null)
             .show();
             return true;
+        }else if(id==R.id.action_settings){
+            Intent i=new Intent(this,SettingsActivity.class);
+            startActivity(i);
         }
 
         return super.onOptionsItemSelected(item);
@@ -231,12 +165,33 @@ public class ProfileActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_home) {
-            Intent i = new Intent( ProfileActivity.this, HomeActivity.class);
+        Fragment f = null;
+        if(id==R.id.nav_settings){
+            Intent i=new Intent(this,SettingsActivity.class);
             startActivity(i);
-        }
+        }else {
+            switch (id) {
+                case R.id.nav_home:
+                    f = new HomeFragment();
+                    break;
+                case R.id.nav_profile:
+                    f = new ProfileFragment();
+                    break;
+                case R.id.nav_message:
+                    f = new ChatFragment();
+                    break;
+                case R.id.nav_storage:
+                    f = new StorageFragment();
+                    break;
+                case R.id.nav_attendance:
+                    f = new AttendanceFragment();
+                    break;
 
+            }
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.main_container, f);
+            fragmentTransaction.commit();
+        }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -248,7 +203,7 @@ public class ProfileActivity extends AppCompatActivity
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-                mProgress.setMessage("Wait while We are updating your Profile Picture..");
+                mProgress.setMessage("Wait while We are updating your ProfileFragment Picture..");
                 mProgress.setTitle("Please Wait");
                 mProgress.show();
                 Uri resultUri = result.getUri();
@@ -272,7 +227,7 @@ public class ProfileActivity extends AppCompatActivity
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(ProfileActivity.this,"Saving Your Profile picture...",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this,"Saving Your Profile picture...",Toast.LENGTH_SHORT).show();
                             final String downloadUrl=task.getResult().getDownloadUrl().toString();
 
                             UploadTask uploadTask=thumbFilePath.putBytes(mbyte);
@@ -282,31 +237,23 @@ public class ProfileActivity extends AppCompatActivity
                                     final String thumb_downloadUrl=thumb_task.getResult().getDownloadUrl().toString();
                                     mDatabase.child("u_image").setValue(downloadUrl);
                                     mDatabase.child("u_thumb_image").setValue(thumb_downloadUrl);
-                                    Picasso.with(ProfileActivity.this).load(thumb_downloadUrl).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.add_image)
-                                            .into(logoProf, new Callback() {
-                                                @Override
-                                                public void onSuccess() {
-                                                }
-                                                @Override
-                                                public void onError() {
-                                                    Picasso.with(ProfileActivity.this).load(thumb_downloadUrl).placeholder(R.drawable.add_image)
-                                            .into(logoProf);
-                                                }
-                                            });
+                                    Toast.makeText(MainActivity.this, "Profile Picture Updated Successfully !", Toast.LENGTH_SHORT).show();
+
                                 }
                             });
                         }else{
-                            Toast.makeText(ProfileActivity.this,task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this,task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                         }
                         mProgress.dismiss();
                     }
                 });
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
-                Toast.makeText(ProfileActivity.this,error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }
+
 
 
 }

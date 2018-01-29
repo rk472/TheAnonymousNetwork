@@ -16,7 +16,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import br.com.simplepass.loading_button_lib.interfaces.OnAnimationEndListener;
@@ -35,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
         if(mAuth.getCurrentUser() != null) {
-            Intent i = new Intent(LoginActivity.this, ProfileActivity.class);
+            Intent i = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(i);
             finish();
         }
@@ -70,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                                             if (task.isSuccessful()) {
                                                 circularProgressButton.revertAnimation();
                                                 circularProgressButton.setBackgroundResource(R.drawable.btnshape11);
-                                                Intent i = new Intent(LoginActivity.this, ProfileActivity.class);
+                                                Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                                 startActivity(i);
                                                 finish();
                                             } else {

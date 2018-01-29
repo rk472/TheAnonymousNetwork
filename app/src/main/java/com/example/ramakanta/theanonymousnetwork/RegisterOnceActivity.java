@@ -44,7 +44,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
-import br.com.simplepass.loading_button_lib.interfaces.OnAnimationEndListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
 
@@ -162,7 +161,7 @@ public class RegisterOnceActivity extends AppCompatActivity {
                                     Snackbar snackbar = Snackbar
                                             .make(linearLayout , "Successfully Registered !", Snackbar.LENGTH_SHORT);
                                     snackbar.show();
-                                    Intent i=new Intent(RegisterOnceActivity.this,ProfileActivity.class);
+                                    Intent i=new Intent(RegisterOnceActivity.this,MainActivity.class);
                                     startActivity(i);
                                     finish();
                                 }
@@ -200,7 +199,7 @@ public class RegisterOnceActivity extends AppCompatActivity {
             return false;
         }else if(downloadUrl==null ||thumb_downloadUrl==null){
             Snackbar snackbar = Snackbar
-                    .make(linearLayout , "You Must Select A Profile Picture", Snackbar.LENGTH_SHORT);
+                    .make(linearLayout , "You Must Select A ProfileFragment Picture", Snackbar.LENGTH_SHORT);
             snackbar.show();
             return false;
         }
@@ -228,7 +227,7 @@ public class RegisterOnceActivity extends AppCompatActivity {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-                loadingBar.setMessage("Wait while We are updating your Profile Picture..");
+                loadingBar.setMessage("Wait while We are updating your ProfileFragment Picture..");
                 loadingBar.setTitle("Please Wait");
                 loadingBar.show();
                 Uri resultUri = result.getUri();
@@ -252,7 +251,7 @@ public class RegisterOnceActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(RegisterOnceActivity.this,"Saving Your Profile picture...",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterOnceActivity.this,"Saving Your ProfileFragment picture...",Toast.LENGTH_SHORT).show();
                             downloadUrl=task.getResult().getDownloadUrl().toString();
 
                             UploadTask uploadTask=thumbFilePath.putBytes(mbyte);
