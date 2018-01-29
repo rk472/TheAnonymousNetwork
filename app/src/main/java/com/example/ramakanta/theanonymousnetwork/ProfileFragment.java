@@ -152,14 +152,14 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        FloatingActionButton fab =  main.findViewById(R.id.fab);
+        /*FloatingActionButton fab =  main.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
         //drawer initialization
 
 
