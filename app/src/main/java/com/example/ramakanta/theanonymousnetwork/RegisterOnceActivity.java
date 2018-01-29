@@ -3,14 +3,18 @@ package com.example.ramakanta.theanonymousnetwork;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -68,9 +72,7 @@ public class RegisterOnceActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_register_once);
         //initialization
         circularProgressButton = findViewById(R.id.btn_reg);
@@ -199,7 +201,7 @@ public class RegisterOnceActivity extends AppCompatActivity {
             return false;
         }else if(downloadUrl==null ||thumb_downloadUrl==null){
             Snackbar snackbar = Snackbar
-                    .make(linearLayout , "You Must Select A ProfileFragment Picture", Snackbar.LENGTH_SHORT);
+                    .make(linearLayout , "You Must Select A Profile Picture", Snackbar.LENGTH_SHORT);
             snackbar.show();
             return false;
         }
@@ -221,13 +223,44 @@ public class RegisterOnceActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         dob_reg.setText(sdf.format(myCalendar.getTime()));
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.register_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.logout_reg) {
+
+            new AlertDialog.Builder(this).setTitle("Log Out")
+                    .setMessage("Do you really want to logout")
+                    .setPositiveButton("Yes, Sure", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mAuth.signOut();
+                            Intent i = new Intent(RegisterOnceActivity.this,LoginActivity.class);
+                            startActivity(i);
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("No , Don't" , null)
+                    .show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-                loadingBar.setMessage("Wait while We are updating your ProfileFragment Picture..");
+                loadingBar.setMessage("Wait while We are updating your Profile Picture..");
                 loadingBar.setTitle("Please Wait");
                 loadingBar.show();
                 Uri resultUri = result.getUri();
@@ -251,7 +284,7 @@ public class RegisterOnceActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(RegisterOnceActivity.this,"Saving Your ProfileFragment picture...",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterOnceActivity.this,"Saving Your Profile picture...",Toast.LENGTH_SHORT).show();
                             downloadUrl=task.getResult().getDownloadUrl().toString();
 
                             UploadTask uploadTask=thumbFilePath.putBytes(mbyte);
@@ -259,14 +292,14 @@ public class RegisterOnceActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> thumb_task) {
                                     thumb_downloadUrl=thumb_task.getResult().getDownloadUrl().toString();
-                                    Picasso.with(RegisterOnceActivity.this).load(thumb_downloadUrl).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.add_image)
+                                    Picasso.with(RegisterOnceActivity.this).load(thumb_downloadUrl).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.vector_add_photo)
                                             .into(image_reg, new Callback() {
                                                 @Override
                                                 public void onSuccess() {
                                                 }
                                                 @Override
                                                 public void onError() {
-                                                    Picasso.with(RegisterOnceActivity.this).load(thumb_downloadUrl).placeholder(R.drawable.add_image).into(image_reg);
+                                                    Picasso.with(RegisterOnceActivity.this).load(thumb_downloadUrl).placeholder(R.drawable.vector_add_photo).into(image_reg);
                                                 }
                                             });
                                 }

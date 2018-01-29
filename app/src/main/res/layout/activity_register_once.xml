@@ -18,28 +18,9 @@
             android:layout_height="match_parent"
             android:elevation="5dp"
             android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@color/colorPrimary"
-                android:elevation="5dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/merriweather"
-                    android:text="Create Your Profile"
-                    android:textColor="#ffffff"
-                    android:textSize="30dp" />
-            </LinearLayout>
-
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="460dp">
+                android:layout_height="450dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -65,9 +46,10 @@
                         android:layout_height="140dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
-                        android:src="@drawable/add_image"
-                        app:civ_border_color="#000000"
-                        app:civ_border_width="4dp" />
+                        android:src="@drawable/vector_add_photo"
+                        app:civ_border_color="#ffffff"
+                        app:civ_border_width="4dp"
+                        tools:ignore="VectorDrawableCompat" />
 
                     <EditText
                         android:id="@+id/name_reg"
@@ -94,22 +76,24 @@
                         android:drawablePadding="10dp"
                         android:ems="12"
                         android:hint="Roll No"
-                        android:inputType="textEmailAddress"
+                        android:inputType="text"
                         android:textSize="18dp" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="300dp"
+                        android:layout_height="45dp"
+                        android:paddingLeft="1dp"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="30dp"
+                        android:background="@drawable/ed_shape"
                         android:orientation="horizontal">
 
                         <EditText
-                            android:layout_width="wrap_content"
+                            android:layout_width="40dp"
                             android:layout_height="45dp"
-                            android:editable="false"
                             android:background="@drawable/ed_shape"
-                            android:drawableLeft="@drawable/vector_gender" />
+                            android:drawableLeft="@drawable/vector_gender"
+                            android:editable="false" />
 
                         <Spinner
                             android:id="@+id/gender_reg"
@@ -130,7 +114,7 @@
                         android:drawablePadding="10dp"
                         android:ems="12"
                         android:hint="Current City"
-                        android:inputType="textEmailAddress"
+                        android:inputType="textShortMessage"
                         android:textSize="18dp" />
 
                     <EditText
@@ -147,7 +131,7 @@
                         android:focusable="false"
                         android:focusableInTouchMode="false"
                         android:hint="Date of Birth"
-                        android:inputType="textEmailAddress"
+                        android:inputType="none"
                         android:onClick="otc"
                         android:textSize="18dp" />
 
@@ -162,7 +146,7 @@
                         android:drawablePadding="10dp"
                         android:ems="12"
                         android:hint="Contact Number"
-                        android:inputType="textEmailAddress"
+                        android:inputType="number"
                         android:textSize="18dp" />
 
                     <EditText
@@ -190,7 +174,7 @@
                         android:drawablePadding="10dp"
                         android:ems="12"
                         android:hint="Year of Joining IMCA"
-                        android:inputType="textEmailAddress"
+                        android:inputType="number"
                         android:textSize="18dp" />
 
                     <EditText
@@ -210,7 +194,7 @@
 
                     <android.support.v4.widget.Space
                         android:layout_width="match_parent"
-                        android:layout_height="50dp" />
+                        android:layout_height="100dp" />
                 </LinearLayout>
             </ScrollView>
 
