@@ -5,9 +5,9 @@
     <application
         android:name=".TANOffline"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/favicon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/favicon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".SplashActivity">
@@ -25,7 +25,10 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".RegisterOnceActivity" />
+
+        <activity android:name=".RegisterOnceActivity"
+            android:label="Setup Your Profile"
+            />
 
         <meta-data
             android:name="preloaded_fonts"
@@ -38,6 +41,9 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.ramakanta.theanonymousnetwork.MainActivity" />
+        </activity>
+        <activity android:name=".EditProfileActivity"
+            android:label="@string/title_edit_profile">
         </activity>
     </application>
 

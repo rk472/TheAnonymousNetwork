@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity
 
         mProgress=new ProgressDialog(this);
 
-
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -98,7 +97,6 @@ public class MainActivity extends AppCompatActivity
                         .into(navImage, new Callback() {
                             @Override
                             public void onSuccess() {
-
                             }
                             @Override
                             public void onError() {
@@ -106,14 +104,11 @@ public class MainActivity extends AppCompatActivity
                             }
                         });
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer =  findViewById(R.id.drawer_layout);
@@ -123,14 +118,12 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.profile, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -146,7 +139,6 @@ public class MainActivity extends AppCompatActivity
                             Intent i = new Intent(MainActivity.this,LoginActivity.class);
                             startActivity(i);
                             finish();
-
                         }
                     })
                     .setNegativeButton("No , Don't" , null)
@@ -156,10 +148,8 @@ public class MainActivity extends AppCompatActivity
             Intent i=new Intent(this,SettingsActivity.class);
             startActivity(i);
         }
-
         return super.onOptionsItemSelected(item);
     }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -203,7 +193,7 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-                mProgress.setMessage("Wait while We are updating your ProfileFragment Picture..");
+                mProgress.setMessage("Wait while We are updating your Profile Picture..");
                 mProgress.setTitle("Please Wait");
                 mProgress.show();
                 Uri resultUri = result.getUri();

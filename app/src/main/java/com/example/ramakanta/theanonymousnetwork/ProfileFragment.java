@@ -3,6 +3,7 @@ package com.example.ramakanta.theanonymousnetwork;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -51,7 +52,6 @@ public class ProfileFragment extends Fragment {
     private ImageButton uploadImage;
     private AppCompatActivity main;
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -79,6 +79,15 @@ public class ProfileFragment extends Fragment {
         mProgress.setCancelable(false);
         mProgress.setCanceledOnTouchOutside(false);
         mProgress.show();
+
+        FloatingActionButton fab =  root.findViewById(R.id.fab_profile);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(main,EditProfileActivity.class);
+                startActivity(i);
+            }
+        });
 
         mAuth = FirebaseAuth.getInstance();
         uId = mAuth.getCurrentUser().getUid();
@@ -151,18 +160,6 @@ public class ProfileFragment extends Fragment {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
-        FloatingActionButton fab =  main.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        //drawer initialization
-
-
         return root;
     }
 

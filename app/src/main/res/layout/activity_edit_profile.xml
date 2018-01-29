@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context="com.example.ramakanta.theanonymousnetwork.EditProfileActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/lives_edprof"
+                android:layout_width="300dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/ed_shape"
+                android:drawableLeft="@drawable/vector_lives"
+                android:drawablePadding="10dp"
+                android:ems="12"
+                android:hint="Current City"
+                android:inputType="textShortMessage"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/dob_edprof"
+                android:layout_width="300dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/ed_shape"
+                android:drawableLeft="@drawable/vector_dob"
+                android:drawablePadding="10dp"
+                android:editable="false"
+                android:onClick="onDobClick"
+                android:ems="12"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="Date of Birth"
+                android:inputType="textEmailAddress"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/phone_edprof"
+                android:layout_width="300dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/ed_shape"
+                android:drawableLeft="@drawable/vector_phone"
+                android:drawablePadding="10dp"
+                android:ems="12"
+                android:hint="Contact Number"
+                android:inputType="number"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/email_edprof"
+                android:layout_width="300dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/ed_shape"
+                android:drawableLeft="@drawable/vector_email"
+                android:drawablePadding="10dp"
+                android:ems="12"
+                android:hint="E-Mail"
+                android:inputType="textEmailAddress"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/bio_edprof"
+                android:layout_width="300dp"
+                android:layout_height="85dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/ed_shape"
+                android:drawableLeft="@drawable/vector_bio"
+                android:drawablePadding="10dp"
+                android:ems="12"
+                android:hint="Some Inspiring Lines ..."
+                android:inputType="textMultiLine"
+                android:maxLines="3"
+                android:textSize="18dp" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="100dp" />
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/save_btn_edprof"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/btnshape"
+                android:fontFamily="@font/play_bold"
+                android:text="Save"
+                android:onClick="onSaveClicked"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="15dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/cancel_btn_edprof"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/play_bold"
+                android:background="@drawable/btnshape"
+                android:text="Cancel"
+                android:onClick="onCancelClick"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="15dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

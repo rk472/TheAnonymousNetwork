@@ -1,8 +1,10 @@
 package com.example.ramakanta.theanonymousnetwork;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,11 +13,17 @@ import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import br.com.simplepass.loading_button_lib.interfaces.OnAnimationEndListener;
@@ -26,18 +34,25 @@ public class LoginActivity extends AppCompatActivity {
     private CircularProgressButton circularProgressButton;
     private EditText uName,upass;
     private LinearLayout linearLayout;
+    private DatabaseReference mDatabase;
+    private ProgressDialog mProgress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_login);
+
+        mProgress = new ProgressDialog(this);
+        mProgress.setTitle("Please Wait");
+        mProgress.setMessage("Checking Login Status...");
+        mProgress.setCancelable(false);
+        mProgress.setCanceledOnTouchOutside(false);
+
         mAuth = FirebaseAuth.getInstance();
-        if(mAuth.getCurrentUser() != null) {
-            Intent i = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(i);
-            finish();
-        }
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
+
         circularProgressButton = findViewById(R.id.login_btn);
         uName = findViewById(R.id.ltUserName);
         upass = findViewById(R.id.ltPassword);
@@ -69,9 +84,8 @@ public class LoginActivity extends AppCompatActivity {
                                             if (task.isSuccessful()) {
                                                 circularProgressButton.revertAnimation();
                                                 circularProgressButton.setBackgroundResource(R.drawable.btnshape11);
-                                                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                                                startActivity(i);
-                                                finish();
+                                               hasUserData();
+
                                             } else {
                                                 circularProgressButton.revertAnimation(new OnAnimationEndListener() {
                                                     @Override
@@ -103,6 +117,28 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void hasUserData() {
+        final String uId = mAuth.getCurrentUser().getUid();
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild(uId)) {
+                    mProgress.dismiss();
+                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
+                }else{
+                    mProgress.dismiss();
+                    Intent i = new Intent(LoginActivity.this, RegisterOnceActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
     @Override
     protected void onResume()
     {
