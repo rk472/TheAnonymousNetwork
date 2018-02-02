@@ -8,4 +8,6 @@
 
     <color name="colorStart">#e20c13</color>
     <color name="colorEnd">#9c090e</color>
+
+    <color name="colorMessage">#4AE864</color>
 </resources>

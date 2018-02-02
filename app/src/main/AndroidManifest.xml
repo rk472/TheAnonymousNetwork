@@ -41,8 +41,9 @@
         </activity>
         <activity
             android:name=".AllUsersChatActivity"
-            android:theme="@style/noBar"></activity>
-        <activity android:name=".EditProfileActivity"></activity>
+            android:theme="@style/noBar" />
+        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".ChatActivity"></activity>
     </application>
 
 </manifest>
