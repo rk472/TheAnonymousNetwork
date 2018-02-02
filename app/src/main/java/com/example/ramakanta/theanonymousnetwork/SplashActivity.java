@@ -19,6 +19,8 @@ import com.google.firebase.database.ValueEventListener;
 public class SplashActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    private String uId;
+    private ValueEventListener mListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,25 @@ public class SplashActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        uId = mAuth.getCurrentUser().getUid();
+        mListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild(uId)) {
+                    Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
+                }else{
+                    Intent i = new Intent(SplashActivity.this, RegisterOnceActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
 
         ImageView mImage = findViewById(R.id.splash_logo);
 
@@ -51,24 +72,22 @@ public class SplashActivity extends AppCompatActivity {
         };
         timer.start();
     }
-    private void hasUserData() {
-        final String uId = mAuth.getCurrentUser().getUid();
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild(uId)) {
-                    Intent i = new Intent(SplashActivity.this, MainActivity.class);
-                    startActivity(i);
-                    finish();
-                }else{
-                    Intent i = new Intent(SplashActivity.this, RegisterOnceActivity.class);
-                    startActivity(i);
-                    finish();
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
+    private void hasUserData(){
+        mDatabase.addValueEventListener(mListener);
+    }
+
+    @Override
+    protected void onStop() {
+        if (mListener != null && mDatabase!=null) {
+            mDatabase.removeEventListener(mListener);
+        }
+        super.onStop();
+    }
+    @Override
+    public void onPause() {
+        if (mListener != null && mDatabase!=null) {
+            mDatabase.removeEventListener(mListener);
+        }
+        super.onPause();
     }
 }

@@ -36,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
     private LinearLayout linearLayout;
     private DatabaseReference mDatabase;
     private ProgressDialog mProgress;
+    private String uId;
+    private ValueEventListener mListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,25 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        uId = mAuth.getCurrentUser().getUid();
+        mListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild(uId)) {
+                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
+                }else{
+                    Intent i = new Intent(LoginActivity.this, RegisterOnceActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
 
         circularProgressButton = findViewById(R.id.login_btn);
         uName = findViewById(R.id.ltUserName);
@@ -84,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                                             if (task.isSuccessful()) {
                                                 circularProgressButton.revertAnimation();
                                                 circularProgressButton.setBackgroundResource(R.drawable.btnshape11);
-                                               hasUserData();
+                                                hasUserData();
 
                                             } else {
                                                 circularProgressButton.revertAnimation(new OnAnimationEndListener() {
@@ -118,26 +139,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void hasUserData() {
-        final String uId = mAuth.getCurrentUser().getUid();
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild(uId)) {
-                    mProgress.dismiss();
-                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(i);
-                    finish();
-                }else{
-                    mProgress.dismiss();
-                    Intent i = new Intent(LoginActivity.this, RegisterOnceActivity.class);
-                    startActivity(i);
-                    finish();
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
+        mDatabase.addValueEventListener(mListener);
     }
     @Override
     protected void onResume()
@@ -145,6 +147,18 @@ public class LoginActivity extends AppCompatActivity {
         super.onResume();
         circularProgressButton.setBackgroundResource(R.drawable.btnshape11);
     }
-
-
+    @Override
+    protected void onStop() {
+        if (mListener != null && mDatabase!=null) {
+            mDatabase.removeEventListener(mListener);
+        }
+        super.onStop();
+    }
+    @Override
+    public void onPause() {
+        if (mListener != null && mDatabase!=null) {
+            mDatabase.removeEventListener(mListener);
+        }
+        super.onPause();
+    }
 }
