@@ -41,6 +41,9 @@ dependencies {
     compile 'id.zelory:compressor:2.1.0'
     implementation 'com.android.support:cardview-v7:26.1.0'
     compile 'com.squareup.okhttp:okhttp:2.5.0'
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
+    compile 'com.firebaseui:firebase-ui-database:2.2.0'
+
 }
 
 
