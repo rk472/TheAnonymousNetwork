@@ -48,7 +48,6 @@
         <activity android:name=".EditProfileActivity"></activity>
         <activity android:name=".ChatActivity"
             android:theme="@style/noBar"></activity>
-        <activity android:name=".AddPostActivity"></activity>
     </application>
 
 </manifest>
