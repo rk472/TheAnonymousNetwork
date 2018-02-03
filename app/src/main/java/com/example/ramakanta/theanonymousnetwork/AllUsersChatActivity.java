@@ -1,6 +1,7 @@
 package com.example.ramakanta.theanonymousnetwork;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,14 +26,14 @@ import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AllUsersChatActivity extends AppCompatActivity {
-    private MaterialSearchView searchview;
+    private MaterialSearchView searchView;
     private RecyclerView allUsersView;
     private DatabaseReference allUsersRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_users_chat);
-        searchview=findViewById(R.id.search_chat);
+        searchView=findViewById(R.id.search_chat);
         allUsersView=findViewById(R.id.all_users_chat);
         allUsersView.setHasFixedSize(true);
         allUsersView.setLayoutManager(new LinearLayoutManager(this));
@@ -43,7 +44,7 @@ public class AllUsersChatActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("All Users");
         mToolBar.setTitleTextColor(Color.parseColor("#ffffff"));
         allUsersView.setAdapter(getAdapter(""));
-        searchview.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
 
@@ -55,7 +56,7 @@ public class AllUsersChatActivity extends AppCompatActivity {
 
             }
         });
-        searchview.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
@@ -74,7 +75,7 @@ public class AllUsersChatActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_menu,menu);
         MenuItem item=menu.findItem(R.id.action_search);
-        searchview.setMenuItem(item);
+        searchView.setMenuItem(item);
         return true;
 
     }
@@ -120,9 +121,18 @@ public class AllUsersChatActivity extends AppCompatActivity {
                         mQuery
                 ) {
             @Override
-            protected void populateViewHolder(AllUsersViewHolder viewHolder, AllUsers model, int position) {
+            protected void populateViewHolder(AllUsersViewHolder viewHolder, AllUsers model, final int position) {
                 viewHolder.setU_name(model.getU_name());
                 viewHolder.setU_thumb_image(getApplicationContext(),model.getU_thumb_image());
+                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent chatIntent=new Intent(AllUsersChatActivity.this,ChatActivity.class);
+                        chatIntent.putExtra("uid",getRef(position).getKey());
+                        startActivity(chatIntent);
+                        finish();
+                    }
+                });
 
             }
         };
