@@ -1,33 +1,41 @@
 package com.example.ramakanta.theanonymousnetwork;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.io.PipedOutputStream;
 
 public class HomeFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private AppCompatActivity main;
-
+    private RecyclerView mContainer;
+    private String name , dp_url;
+    private DatabaseReference mPostDB,mUserDB;
     public HomeFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,14 +45,13 @@ public class HomeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         main=(AppCompatActivity)getActivity();
         main.getSupportActionBar().setTitle("Home");
-        View root=inflater.inflate(R.layout.fragment_home, container, false);
 
+        View root=inflater.inflate(R.layout.fragment_home, container, false);
         FloatingActionButton fab =  root.findViewById(R.id.fab_home);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +60,49 @@ public class HomeFragment extends Fragment {
                 startActivity(i);
             }
         });
+        mPostDB = FirebaseDatabase.getInstance().getReference().child("posts");
+        mPostDB.keepSynced(true);
+        mContainer = root.findViewById(R.id.post_container_home);
+        mContainer.setHasFixedSize(true);
+        mContainer.setLayoutManager(new LinearLayoutManager(main));
+        FirebaseRecyclerAdapter<Post, PostViewHolder> adapter = new FirebaseRecyclerAdapter<Post, PostViewHolder>(
+                Post.class,R.layout.post_element_row,PostViewHolder.class,mPostDB
+        ) {
+            @Override
+            protected void populateViewHolder(PostViewHolder viewHolder, Post model, int position) {
+                final PostViewHolder holder = viewHolder;
+                String user_id = model.getP_user();
+                //Toast.makeText(main, user_id, Toast.LENGTH_SHORT).show();
+                mUserDB = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
+                mUserDB.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        name = dataSnapshot.child("u_name").getValue().toString();
+                        dp_url = dataSnapshot.child("u_thumb_image").getValue().toString();
+                        //Toast.makeText(main, name, Toast.LENGTH_SHORT).show();
+                        holder.setUser_image(getActivity().getApplicationContext(),dp_url);
+                        holder.setUser_name(name);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                //viewHolder.setUser_image(getActivity().getApplicationContext(),dp_url);
+                //viewHolder.setUser_name(name);
+                viewHolder.setPost_caption(model.getP_caption());
+                viewHolder.setPost_likes(model.getP_like());
+                viewHolder.setPost_time(model.getP_time());
+                if(model.getP_image().equalsIgnoreCase("no_image")){
+
+                }else{
+                    viewHolder.post_image.setVisibility(View.VISIBLE);
+                    viewHolder.setPost_image(getActivity().getApplicationContext(),model.getP_image());
+                }
+            }
+        };
+        mContainer.setAdapter(adapter);
 
         return root;
     }

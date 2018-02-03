@@ -28,12 +28,8 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_splash);
-
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
-
-
-
         ImageView mImage = findViewById(R.id.splash_logo);
 
         Thread timer = new Thread(){
