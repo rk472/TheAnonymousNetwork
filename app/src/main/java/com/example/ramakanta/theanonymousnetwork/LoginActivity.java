@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         mProgress.setCanceledOnTouchOutside(false);
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
-        uId = mAuth.getCurrentUser().getUid();
+
         mListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -129,6 +129,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void hasUserData() {
+        uId = mAuth.getCurrentUser().getUid();
         mDatabase.addValueEventListener(mListener);
     }
     @Override
