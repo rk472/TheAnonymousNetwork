@@ -1,11 +1,15 @@
 package com.example.ramakanta.theanonymousnetwork;
 
+import android.content.Context;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,11 +23,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatActivity extends AppCompatActivity {
     private String messageUid,myUid;
@@ -35,6 +46,9 @@ public class ChatActivity extends AppCompatActivity {
     private MessageAdapter messageAdapter;
     private EditText inputMessageText;
     private Button sendMessage;
+    private TextView nameText;
+    private CircleImageView dp;
+    private Toolbar chatToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +70,45 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sendMessage();
+            }
+        });
+
+
+
+        chatToolbar=findViewById(R.id.chat_app_bar);
+        setSupportActionBar(chatToolbar);
+        ActionBar actionBar=getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowCustomEnabled(true);
+        LayoutInflater layoutInflater=(LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View actionBarView=layoutInflater.inflate(R.layout.chat_bar_layout,null);
+        actionBar.setCustomView(actionBarView);
+        nameText=findViewById(R.id.custom_user_profile_name);
+        dp=findViewById(R.id.custom_profile_image);
+        DatabaseReference userRef=FirebaseDatabase.getInstance().getReference().child("Users").child(messageUid);
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String name=dataSnapshot.child("u_name").getValue().toString();
+                final String url=dataSnapshot.child("u_thumb_image").getValue().toString();
+                nameText.setText(name);
+                Picasso.with(getApplicationContext()).load(url).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.logo_def)
+                        .into(dp, new Callback() {
+                            @Override
+                            public void onSuccess() {
+
+                            }
+                            @Override
+                            public void onError() {
+                                Picasso.with(getApplicationContext()).load(url).placeholder(R.drawable.logo_def)
+                                        .into(dp);
+                            }
+                        });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
 
