@@ -29,7 +29,6 @@ import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import br.com.simplepass.loading_button_lib.interfaces.OnAnimationEndListener;
 
 public class LoginActivity extends AppCompatActivity {
-
     private FirebaseAuth mAuth;
     private CircularProgressButton circularProgressButton;
     private EditText uName,upass;
@@ -38,7 +37,6 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressDialog mProgress;
     private String uId;
     private ValueEventListener mListener;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
@@ -51,10 +49,8 @@ public class LoginActivity extends AppCompatActivity {
         mProgress.setMessage("Checking Login Status...");
         mProgress.setCancelable(false);
         mProgress.setCanceledOnTouchOutside(false);
-
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
-
         uId = mAuth.getCurrentUser().getUid();
         mListener = new ValueEventListener() {
             @Override
@@ -73,7 +69,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         };
-
         circularProgressButton = findViewById(R.id.login_btn);
         uName = findViewById(R.id.ltUserName);
         upass = findViewById(R.id.ltPassword);
@@ -106,7 +101,6 @@ public class LoginActivity extends AppCompatActivity {
                                                 circularProgressButton.revertAnimation();
                                                 circularProgressButton.setBackgroundResource(R.drawable.btnshape11);
                                                 hasUserData();
-
                                             } else {
                                                 circularProgressButton.revertAnimation(new OnAnimationEndListener() {
                                                     @Override
@@ -118,18 +112,14 @@ public class LoginActivity extends AppCompatActivity {
                                                 });
                                                 circularProgressButton.setBackgroundResource(R.drawable.btnshape11);
                                             }
-
                                         }
                                     });
-
                             return null;
                         }
                         @Override
                         protected void onPostExecute(String s)
                         {
-
                         }
-
                     };
                     circularProgressButton.startAnimation();
                     demoDownload.execute();

@@ -49,12 +49,11 @@ public class HomeFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(main,EditProfileActivity.class);
+                Intent i = new Intent(main,AddPostActivity.class);
                 startActivity(i);
             }
         });
 
-        // Inflate the layout for this fragment
         return root;
     }
 
