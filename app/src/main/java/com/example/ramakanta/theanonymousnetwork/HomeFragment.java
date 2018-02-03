@@ -89,8 +89,7 @@ public class HomeFragment extends Fragment {
 
                     }
                 });
-                //viewHolder.setUser_image(getActivity().getApplicationContext(),dp_url);
-                //viewHolder.setUser_name(name);
+
                 viewHolder.setPost_caption(model.getP_caption());
                 viewHolder.setPost_likes(model.getP_like());
                 viewHolder.setPost_time(model.getP_time());
