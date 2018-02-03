@@ -32,23 +32,7 @@ public class SplashActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
 
-        mListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild(uId)) {
-                    Intent i = new Intent(SplashActivity.this, MainActivity.class);
-                    startActivity(i);
-                    finish();
-                }else{
-                    Intent i = new Intent(SplashActivity.this, RegisterOnceActivity.class);
-                    startActivity(i);
-                    finish();
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        };
+
 
         ImageView mImage = findViewById(R.id.splash_logo);
 
@@ -73,6 +57,23 @@ public class SplashActivity extends AppCompatActivity {
     }
     private void hasUserData(){
         uId = mAuth.getCurrentUser().getUid();
+        mListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild(uId)) {
+                    Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
+                }else{
+                    Intent i = new Intent(SplashActivity.this, RegisterOnceActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
         mDatabase.addValueEventListener(mListener);
     }
 

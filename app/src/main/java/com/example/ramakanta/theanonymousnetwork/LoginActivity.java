@@ -52,23 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
 
-        mListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild(uId)) {
-                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(i);
-                    finish();
-                }else{
-                    Intent i = new Intent(LoginActivity.this, RegisterOnceActivity.class);
-                    startActivity(i);
-                    finish();
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        };
+
         circularProgressButton = findViewById(R.id.login_btn);
         uName = findViewById(R.id.ltUserName);
         upass = findViewById(R.id.ltPassword);
@@ -130,6 +114,23 @@ public class LoginActivity extends AppCompatActivity {
 
     private void hasUserData() {
         uId = mAuth.getCurrentUser().getUid();
+        mListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild(uId)) {
+                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
+                }else{
+                    Intent i = new Intent(LoginActivity.this, RegisterOnceActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
         mDatabase.addValueEventListener(mListener);
     }
     @Override
