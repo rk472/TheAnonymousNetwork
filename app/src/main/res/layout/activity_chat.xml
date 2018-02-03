@@ -6,17 +6,15 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:background="@android:color/darker_gray"
 tools:context="com.example.ramakanta.theanonymousnetwork.ChatActivity">
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/chat_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"></android.support.v7.widget.Toolbar>
 
 
-<android.support.v7.widget.RecyclerView
-    android:id="@+id/messages_list"
-    android:layout_width="match_parent"
-    android:layout_height="fill_parent"
-    android:layout_above="@+id/linearLayout"
-    android:layout_alignParentStart="true"
-    >
 
-</android.support.v7.widget.RecyclerView>
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -26,13 +24,6 @@ tools:context="com.example.ramakanta.theanonymousnetwork.ChatActivity">
     android:orientation="horizontal"
     android:padding="5dp"
     android:id="@+id/linearLayout">
-
-    <Button
-        android:id="@+id/select_image"
-        android:layout_width="70dp"
-        android:layout_height="40dp"
-        android:padding="5dp"
-        android:text="attach" />
 
     <EditText
         android:id="@+id/input_message"
@@ -52,5 +43,12 @@ tools:context="com.example.ramakanta.theanonymousnetwork.ChatActivity">
         android:text="send" />
 
 </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/messages_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/chat_app_bar" />
 
 </RelativeLayout>
