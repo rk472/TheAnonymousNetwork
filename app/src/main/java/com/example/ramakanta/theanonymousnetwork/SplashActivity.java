@@ -32,7 +32,6 @@ public class SplashActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
 
-        uId = mAuth.getCurrentUser().getUid();
         mListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -73,6 +72,7 @@ public class SplashActivity extends AppCompatActivity {
         timer.start();
     }
     private void hasUserData(){
+        uId = mAuth.getCurrentUser().getUid();
         mDatabase.addValueEventListener(mListener);
     }
 
