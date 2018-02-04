@@ -1,6 +1,8 @@
 package com.example.ramakanta.theanonymousnetwork;
 
-import android.content.Context;
+import
+        android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -45,7 +48,7 @@ public class ChatActivity extends AppCompatActivity {
     private final List<AllChats> messageList=new ArrayList<>();
     private MessageAdapter messageAdapter;
     private EditText inputMessageText;
-    private Button sendMessage;
+    private ImageButton sendMessage;
     private TextView nameText;
     private CircleImageView dp;
     private Toolbar chatToolbar;
@@ -76,6 +79,14 @@ public class ChatActivity extends AppCompatActivity {
 
 
         chatToolbar=findViewById(R.id.chat_app_bar);
+        chatToolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent profileIntent=new Intent(ChatActivity.this,ProfileActivity.class);
+                profileIntent.putExtra("uid",messageUid);
+                startActivity(profileIntent);
+            }
+        });
         setSupportActionBar(chatToolbar);
         ActionBar actionBar=getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

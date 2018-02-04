@@ -41,11 +41,14 @@
         </activity>
         <activity
             android:name=".AllUsersChatActivity"
-            android:theme="@style/noBar"></activity>
-        <activity android:name=".EditProfileActivity"></activity>
-        <activity android:name=".ChatActivity"
-            android:theme="@style/noBar"></activity>
-        <activity android:name=".AddPostActivity"></activity>
+            android:theme="@style/noBar" />
+        <activity android:name=".EditProfileActivity" />
+        <activity
+            android:name=".ChatActivity"
+            android:parentActivityName=".AllUsersChatActivity"
+            android:theme="@style/noBar" />
+        <activity android:name=".AddPostActivity" />
+        <activity android:name=".ProfileActivity"></activity>
     </application>
 
 </manifest>
