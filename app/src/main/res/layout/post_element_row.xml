@@ -1,96 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    android:layout_margin="5dp"
+    android:background="@color/colorLightGrey"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
         android:id="@+id/post_row_home"
-        android:elevation="5dp">
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:background="@color/colorLightGrey">
+
         <LinearLayout
+            android:id="@+id/lin_layout_head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/lin_layout_head"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"
-            android:orientation="horizontal"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp">
+            android:orientation="horizontal">
+
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/posted_user_image"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:id="@+id/posted_user_image"
-                android:src="@drawable/logo_def"/>
+                android:src="@drawable/logo_def" />
             <TextView
+                android:id="@+id/posted_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:id="@+id/posted_user_name"
-                android:fontFamily="@font/play_bold"
                 android:layout_marginTop="5dp"
-                android:text="Username"/>
+                android:fontFamily="@font/play_bold"
+                android:text="Username"
+                android:textColor="@color/colorAccentWhite" />
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/post_caption_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/post_caption_container"
-            android:layout_below="@id/lin_layout_head"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/posted_caption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="This is a random caption"
+                android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/play_bold"
                 android:padding="10dp"
-                android:id="@+id/posted_caption"
-                android:layout_gravity="center_horizontal" />
+                android:text="This is a random caption"
+                android:textColor="@color/colorAccentWhite" />
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/post_image_container"
-            android:layout_below="@id/post_caption_container"
+        <ImageView
+            android:id="@+id/posted_image"
+            android:layout_width="340dp"
+            android:layout_height="340dp"
+            app:srcCompat="@drawable/vector_add_photo"
+            android:layout_gravity="center_horizontal"
             android:visibility="gone"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:layout_width="360dp"
-                android:layout_height="360dp"
-                android:id="@+id/posted_image"
-                android:layout_gravity="center_horizontal"
-                android:adjustViewBounds="true"/>
-        </LinearLayout>
+            android:adjustViewBounds="true" />
         <LinearLayout
+            android:id="@+id/post_like_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/post_like_bar"
-            android:orientation="horizontal"
             android:layout_marginTop="10dp"
-            android:padding="5dp"
-            android:layout_below="@id/post_image_container">
+            android:orientation="horizontal"
+            android:padding="5dp">
 
-            <ImageButton
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+            <Button
+                android:id="@+id/post_like_button"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="20dp"
-                app:srcCompat="@drawable/vector_not_liked" />
+                android:layout_marginTop="3dp"
+                android:background="@drawable/vector_not_liked" />
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
                 android:id="@+id/posted_likes"
-                android:fontFamily="@font/play_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
-                android:text="0"/>
+                android:fontFamily="@font/play_bold"
+                android:text="0"
+                android:textColor="@color/colorAccentWhite" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:fontFamily="@font/play_bold"
+                android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
-                android:text="Likes"/>
+                android:fontFamily="@font/play_bold"
+                android:text="Likes"
+                android:textColor="@color/colorAccentWhite" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/posted_time"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/play_bold"
+                    android:text="2 Hour Ago"
+                    android:textColor="@color/colorAccentWhite" />
+            </RelativeLayout>
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>

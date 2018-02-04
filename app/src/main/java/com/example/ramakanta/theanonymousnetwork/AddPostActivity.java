@@ -37,7 +37,7 @@ import id.zelory.compressor.Compressor;
 
 public class AddPostActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase,mUser;
     private ProgressDialog mProgress;
     private Bitmap thumb_bitmap;
     private EditText mCaption;
@@ -46,8 +46,8 @@ public class AddPostActivity extends AppCompatActivity {
     private RelativeLayout mContainer;
     private byte[] mbyte;
     private ImageView mImage;
-    private String thumb_downloadUrl ,downloadUrl;
-    private StorageReference storeProfileImage,storeProfileThumbImage,filePath,thumbFilePath;
+    private String thumb_downloadUrl ;
+    private StorageReference storeProfileThumbImage,thumbFilePath;
     private Map data = new HashMap();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +61,7 @@ public class AddPostActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         uId = mAuth.getCurrentUser().getUid();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("posts");
+
         storeProfileThumbImage=FirebaseStorage.getInstance().getReference().child("post_images");
         mImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,11 +96,10 @@ public class AddPostActivity extends AppCompatActivity {
                 mProgress.setTitle("Please Wait");
                 mProgress.show();
                 Uri resultUri = result.getUri();
-                String uid=mAuth.getCurrentUser().getUid();
                 File thumb_filePath=new File(resultUri.getPath());
                 try{
                     thumb_bitmap=new Compressor(this)
-                            .setQuality(70)
+                            .setQuality(50)
                             .compressToBitmap(thumb_filePath);
                 }catch (Exception e){
                     e.printStackTrace();
@@ -133,7 +133,6 @@ public class AddPostActivity extends AppCompatActivity {
             data.put("p_like", 0);
             data.put("p_time", ServerValue.TIMESTAMP);
             if (mContainer.getVisibility() == View.VISIBLE) {
-
                 thumbFilePath = storeProfileThumbImage.child(pId + ".jpg");
                 UploadTask uploadTask = thumbFilePath.putBytes(mbyte);
                 uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
@@ -141,20 +140,27 @@ public class AddPostActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> thumb_task) {
                         thumb_downloadUrl = thumb_task.getResult().getDownloadUrl().toString();
                         data.put("p_image", thumb_downloadUrl);
+                        mDatabase.child(pId).updateChildren(data, new DatabaseReference.CompletionListener() {
+                            @Override
+                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                Toast.makeText(AddPostActivity.this, "Post Created Successfully...", Toast.LENGTH_SHORT).show();
+                                mProgress.dismiss();
+                                finish();
+                            }
+                        });
                     }
                 });
             }else{
                 data.put("p_image", "no_image");
+                mDatabase.child(pId).updateChildren(data, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                        Toast.makeText(AddPostActivity.this, "Post Created Successfully...", Toast.LENGTH_SHORT).show();
+                        mProgress.dismiss();
+                        finish();
+                    }
+                });
             }
-            mDatabase.child(pId).updateChildren(data, new DatabaseReference.CompletionListener() {
-                @Override
-                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                    Toast.makeText(AddPostActivity.this, "Post Created Successfully...", Toast.LENGTH_SHORT).show();
-                    mProgress.dismiss();
-                    finish();
-                }
-            });
-
         }
     }
 }
