@@ -5,9 +5,10 @@
     tools:context="com.example.ramakanta.theanonymousnetwork.StorageFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Storage" />
-
+        android:id="@+id/storage_card"/>
 </FrameLayout>
