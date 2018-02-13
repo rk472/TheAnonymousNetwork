@@ -1,5 +1,6 @@
 package com.example.ramakanta.theanonymousnetwork;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -74,15 +77,8 @@ public class StorageFragment extends Fragment {
             @Override
             protected void populateViewHolder(StorageViewHolder viewHolder, Storage model, int position) {
                 String url=model.getUrl();
-                viewHolder.setImage(getActivity().getApplicationContext(),url);
-                viewHolder.mDoc.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),root.findViewById(R.id.storage_image),"storage");
-                        Intent i=new Intent(getActivity(),StorageActivity.class);
-                        startActivity(i,optionsCompat.toBundle());
-                    }
-                });
+                viewHolder.setImage(getActivity(),url);
+                viewHolder.setName(model.getName());
             }
         };
         storageCard=root.findViewById(R.id.storage_card);
@@ -94,13 +90,14 @@ public class StorageFragment extends Fragment {
     public static class StorageViewHolder extends RecyclerView.ViewHolder{
         View mView;
         ImageView mDoc;
+        TextView mDocName;
         public StorageViewHolder(View itemView) {
             super(itemView);
             mView=itemView;
             mDoc=mView.findViewById(R.id.storage_image);
-
+            mDocName=mView.findViewById(R.id.storage_name);
         }
-        void setImage(final Context ctx, final String url){
+        void setImage(final Activity ctx, final String url){
             Picasso.with(ctx).load(url).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.mipmap.no_image)
                     .into(mDoc, new Callback() {
                         @Override
@@ -112,6 +109,19 @@ public class StorageFragment extends Fragment {
                             Picasso.with(ctx).load(url).placeholder(R.mipmap.no_image).into(mDoc);
                         }
                     });
+            mDoc.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeSceneTransitionAnimation(ctx,
+                            new Pair<View, String>(mView.findViewById(R.id.storage_image),"storage"),
+                            new Pair<View, String>(mView.findViewById(R.id.storage_name),"s_name"));
+                    Intent i=new Intent(ctx,StorageActivity.class);
+                    ctx.startActivity(i,optionsCompat.toBundle());
+                }
+            });
+        }
+        public void setName(String name){
+            mDocName.setText(name);
         }
     }
 
