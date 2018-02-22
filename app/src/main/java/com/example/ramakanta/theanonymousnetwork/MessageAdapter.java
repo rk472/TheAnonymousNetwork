@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,11 +40,11 @@ class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHold
         if(fromUserId.equals(myUid)){
             holder.messageText.setBackgroundResource(R.drawable.message_text_background_2);
             holder.messageText.setTextColor(Color.BLACK);
-            holder.messageText.setGravity(Gravity.RIGHT);
+            holder.messageHolder.setGravity(Gravity.RIGHT);
         }else{
             holder.messageText.setBackgroundResource(R.drawable.message_text_background);
             holder.messageText.setTextColor(Color.WHITE);
-            holder.messageText.setGravity(Gravity.LEFT);
+            holder.messageHolder.setGravity(Gravity.LEFT);
         }
         holder.messageText.setText(messages.getMessage());
     }
@@ -55,11 +56,12 @@ class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHold
 
     public class MessageViewHolder extends RecyclerView.ViewHolder{
         public TextView messageText;
-        //public CircleImageView userProfileImage;
+        private LinearLayout messageHolder;
+
         public MessageViewHolder(View view){
             super(view);
             messageText=view.findViewById(R.id.message_text);
-            //userProfileImage=view.findViewById(R.id.messages_profile_image);
+            messageHolder = view.findViewById(R.id.message_holder);
         }
     }
 }

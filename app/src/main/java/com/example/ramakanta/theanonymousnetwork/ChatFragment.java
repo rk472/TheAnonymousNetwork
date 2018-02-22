@@ -156,7 +156,7 @@ public class ChatFragment extends Fragment {
             if(sentStatus){
                 sent.setVisibility(View.VISIBLE);
             }else{
-                sent.setVisibility(View.INVISIBLE);
+                sent.setVisibility(View.GONE);
             }
         }
         public void setTime(String chatTime){

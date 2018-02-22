@@ -76,8 +76,6 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-
-
         chatToolbar=findViewById(R.id.chat_app_bar);
         chatToolbar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +87,6 @@ public class ChatActivity extends AppCompatActivity {
         });
         setSupportActionBar(chatToolbar);
         ActionBar actionBar=getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
         LayoutInflater layoutInflater=(LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View actionBarView=layoutInflater.inflate(R.layout.chat_bar_layout,null);
@@ -107,7 +104,6 @@ public class ChatActivity extends AppCompatActivity {
                         .into(dp, new Callback() {
                             @Override
                             public void onSuccess() {
-
                             }
                             @Override
                             public void onError() {
@@ -116,15 +112,11 @@ public class ChatActivity extends AppCompatActivity {
                             }
                         });
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
-
     }
-
     private void fetchMessage() {
         messageRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -132,6 +124,7 @@ public class ChatActivity extends AppCompatActivity {
                 AllChats messages = dataSnapshot.getValue(AllChats.class);
                 messageList.add(messages);
                 messageAdapter.notifyDataSetChanged();
+                linearLayoutManager.scrollToPosition(messageList.size()-1);
             }
 
             @Override
@@ -156,6 +149,7 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
         public void sendMessage(){
+            linearLayoutManager.scrollToPosition(messageList.size()-1);
             final String message=inputMessageText.getText().toString();
             if(!TextUtils.isEmpty(message)){
                 String message_sender_ref="chats/"+myUid+"/"+messageUid;
@@ -204,6 +198,7 @@ public class ChatActivity extends AppCompatActivity {
                             Log.d("Chat_Log",databaseError.getMessage().toString());
                         }
                         inputMessageText.setText("");
+                        linearLayoutManager.scrollToPosition(messageList.size()-1);
                     }
                 });
             }

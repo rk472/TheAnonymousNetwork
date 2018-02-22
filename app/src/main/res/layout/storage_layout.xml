@@ -1,28 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:padding="5dp"
+    app:cardBackgroundColor="@color/colorAccentRed"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="3dp"
+    app:cardUseCompatPadding="true"
+    app:contentPadding="5dp">
 
-    <ImageView
-        android:id="@+id/storage_image"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        app:srcCompat="@mipmap/no_image"
-        tools:layout_editor_absoluteX="103dp"
-        tools:layout_editor_absoluteY="53dp"
-        android:elevation="20dp"
-        android:transitionName="storage"
-        android:layout_margin="5dp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/storage_name"
-        android:transitionName="s_name"
-        android:text="description"
-        android:gravity="center"
-        android:textColor="@color/colorAccentWhite"/>
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:background="@color/colorAccentRed"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/storage_image"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_margin="5dp"
+            android:elevation="10dp"
+            android:transitionName="storage"
+            app:srcCompat="@mipmap/no_image"
+            tools:layout_editor_absoluteX="103dp"
+            tools:layout_editor_absoluteY="53dp" />
+
+        <TextView
+            android:id="@+id/storage_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="center"
+            android:text="Description"
+            android:textColor="@color/colorAccentWhite"
+            android:transitionName="s_name" />
+    </LinearLayout>
+</android.support.v7.widget.CardView>

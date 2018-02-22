@@ -26,7 +26,8 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".RegisterOnceActivity" />
+        <activity android:name=".RegisterOnceActivity"
+            android:label="Register Now"/>
 
         <meta-data
             android:name="preloaded_fonts"
@@ -46,10 +47,14 @@
         <activity android:name=".EditProfileActivity" />
         <activity
             android:name=".ChatActivity"
+            android:label=" "
             android:theme="@style/noBar" />
-        <activity android:name=".AddPostActivity" />
-        <activity android:name=".StorageActivity"></activity>
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".AddPostActivity"
+            android:theme="@style/noBar" />
+        <activity android:name=".StorageActivity"
+            android:theme="@style/noBar"></activity>
+        <activity android:name=".ProfileActivity"
+            android:theme="@style/noBar"></activity>
     </application>
 
 </manifest>

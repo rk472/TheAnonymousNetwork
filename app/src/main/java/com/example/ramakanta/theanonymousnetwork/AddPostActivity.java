@@ -18,21 +18,28 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
 
 public class AddPostActivity extends AppCompatActivity {
@@ -46,6 +53,7 @@ public class AddPostActivity extends AppCompatActivity {
     private RelativeLayout mContainer;
     private byte[] mbyte;
     private ImageView mImage;
+    private CircleImageView mProfilePic;
     private String thumb_downloadUrl ;
     private StorageReference storeProfileThumbImage,thumbFilePath;
     private Map data = new HashMap();
@@ -59,9 +67,32 @@ public class AddPostActivity extends AppCompatActivity {
         mContainer = findViewById(R.id.image_container);
         mCaption = findViewById(R.id.post_content);
         mAuth = FirebaseAuth.getInstance();
+        mProfilePic = findViewById(R.id.add_post_profile);
         uId = mAuth.getCurrentUser().getUid();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("posts");
+        mUser = FirebaseDatabase.getInstance().getReference().child("Users").child(uId);
+        mUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                final String url = dataSnapshot.child("u_thumb_image").getValue().toString();
+                Picasso.with(AddPostActivity.this).load(url).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.logo_def)
+                        .into(mProfilePic, new Callback() {
+                            @Override
+                            public void onSuccess() {
 
+                            }
+                            @Override
+                            public void onError() {
+                                Picasso.with(AddPostActivity.this).load(url).placeholder(R.drawable.logo_def).into(mProfilePic);
+                            }
+                        });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         storeProfileThumbImage=FirebaseStorage.getInstance().getReference().child("post_images");
         mImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +162,7 @@ public class AddPostActivity extends AppCompatActivity {
             data.put("p_caption", caption);
             data.put("p_user", uId);
             data.put("p_like", 0);
+            data.put("p_order", -1 * new Date().getTime());
             data.put("p_time", ServerValue.TIMESTAMP);
             if (mContainer.getVisibility() == View.VISIBLE) {
                 thumbFilePath = storeProfileThumbImage.child(pId + ".jpg");

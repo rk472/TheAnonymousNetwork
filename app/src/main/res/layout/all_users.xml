@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal">
     <de.hdodenhof.circleimageview.CircleImageView
@@ -9,19 +10,22 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_gravity="center"
-        android:layout_marginTop="1dp"
         android:src="@drawable/logo_def"
         app:civ_border_color="#000000"
-        android:paddingLeft="1dp"
         app:civ_border_width="1dp" />
-    <TextView
-        android:id="@+id/all_users_chat_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="User Name"
-        android:textSize="25dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="10dp"/>
-
-
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:gravity="start"
+        android:layout_height="fill_parent">
+        <TextView
+            android:id="@+id/all_users_chat_name"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:text="User Name"
+            android:fontFamily="@font/play_bold"
+            android:textSize="23dp"/>
+    </LinearLayout>
 </LinearLayout>

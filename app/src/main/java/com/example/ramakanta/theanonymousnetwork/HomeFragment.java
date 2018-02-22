@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,14 +30,16 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private boolean status;
     private AppCompatActivity main;
     private RecyclerView mContainer;
     private String name , dp_url;
+    private String uId;
+    private FirebaseAuth mAuth;
     private DatabaseReference mPostDB,mUserDB;
     public HomeFragment() {
         // Required empty public constructor
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,50 +63,51 @@ public class HomeFragment extends Fragment {
                 startActivity(i);
             }
         });
+        mAuth = FirebaseAuth.getInstance();
+        uId = mAuth.getCurrentUser().getUid();
         mPostDB = FirebaseDatabase.getInstance().getReference().child("posts");
         mPostDB.keepSynced(true);
         mContainer = root.findViewById(R.id.post_container_home);
         mContainer.setHasFixedSize(true);
         mContainer.setLayoutManager(new LinearLayoutManager(main));
         FirebaseRecyclerAdapter<Post, PostViewHolder> adapter = new FirebaseRecyclerAdapter<Post, PostViewHolder>(
-                Post.class,R.layout.post_element_row,PostViewHolder.class,mPostDB
+                Post.class,R.layout.post_element_row,PostViewHolder.class,mPostDB.orderByChild("p_time")
         ) {
             @Override
-            protected void populateViewHolder(PostViewHolder viewHolder, Post model, int position) {
+            protected void populateViewHolder(PostViewHolder viewHolder, final Post model, final int position) {
                 final PostViewHolder holder = viewHolder;
                 String user_id = model.getP_user();
-                //Toast.makeText(main, user_id, Toast.LENGTH_SHORT).show();
                 mUserDB = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
                 mUserDB.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         name = dataSnapshot.child("u_name").getValue().toString();
                         dp_url = dataSnapshot.child("u_thumb_image").getValue().toString();
-                        //Toast.makeText(main, name, Toast.LENGTH_SHORT).show();
                         holder.setUser_image(getActivity().getApplicationContext(),dp_url);
                         holder.setUser_name(name);
                     }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
                     }
                 });
-
                 viewHolder.setPost_caption(model.getP_caption());
                 viewHolder.setPost_likes(model.getP_like());
-                viewHolder.setPost_time(model.getP_time());
-                if(model.getP_image().equalsIgnoreCase("no_image")){
+                viewHolder.setPost_time(LastSeen.getTimeAgo(model.getP_time()));
 
+                if(model.getP_image().equalsIgnoreCase("no_image")){
                 }else{
                     viewHolder.post_image.setVisibility(View.VISIBLE);
                     viewHolder.setPost_image(getActivity().getApplicationContext(),model.getP_image());
                 }
+                viewHolder.post_like_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
             }
         };
         mContainer.setAdapter(adapter);
-
         return root;
     }
-
 }

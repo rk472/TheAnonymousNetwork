@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-                            mAuth.signInWithEmailAndPassword(uName.getText().toString(), upass.getText().toString())
+                            mAuth.signInWithEmailAndPassword(uName.getText().toString()+"@imca.com", upass.getText().toString())
                                     .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
