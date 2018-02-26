@@ -13,8 +13,12 @@
         android:icon="@drawable/nav_profile_icon"
         android:title="Profile" />
         <item
-        android:id="@+id/nav_attendance"
-        android:icon="@drawable/nav_attendance_icon"
+            android:id="@+id/nav_attendance"
+            android:icon="@drawable/nav_attendance_icon"
+            android:title="Attendance" />
+        <item
+        android:id="@+id/nav_time_table"
+        android:icon="@drawable/nav_timetable_icon"
         android:title="Time-Table" />
     </group>
     <group

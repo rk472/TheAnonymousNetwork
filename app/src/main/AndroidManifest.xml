@@ -52,10 +52,11 @@
             android:theme="@style/noBar"
             android:screenOrientation="portrait"/>
         <activity android:name=".EditProfileActivity"
+            android:label="Edit Your Profile"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ChatActivity"
-            android:label=" "
+            android:label=""
             android:theme="@style/noBar"
             android:screenOrientation="portrait"/>
         <activity android:name=".AddPostActivity"

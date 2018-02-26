@@ -3,17 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:gravity="start"
     android:orientation="horizontal"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp"
-    android:paddingRight="5dp"
-    android:background="@color/colorPrimary">
+    android:padding="2dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/custom_profile_image"
-        android:layout_width="50dp"
-        android:layout_marginLeft="1dp"
-        android:layout_height="50dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:src="@drawable/logo_def"
         tools:ignore="InvalidId" />
 
