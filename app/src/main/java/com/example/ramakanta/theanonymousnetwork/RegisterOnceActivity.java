@@ -91,7 +91,7 @@ public class RegisterOnceActivity extends AppCompatActivity {
         loadingBar.setCanceledOnTouchOutside(false);
         loadingBar.setCancelable(false);
         mAuth=FirebaseAuth.getInstance();
-        String uid=mAuth.getCurrentUser().getUid();
+        final String uid=mAuth.getCurrentUser().getUid();
         userRef= FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
         storeProfileImage= FirebaseStorage.getInstance().getReference().child("user_profile_image");
         storeProfileThumbImage=FirebaseStorage.getInstance().getReference().child("user_profile_thumb_image");
@@ -160,12 +160,27 @@ public class RegisterOnceActivity extends AppCompatActivity {
                             userRef.updateChildren(update_user_data).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    Snackbar snackbar = Snackbar
-                                            .make(linearLayout , "Successfully Registered !", Snackbar.LENGTH_SHORT);
-                                    snackbar.show();
-                                    Intent i=new Intent(RegisterOnceActivity.this,MainActivity.class);
-                                    startActivity(i);
-                                    finish();
+
+                                    Map docsData=new HashMap();
+                                    docsData.put("1",getMap("Adhar Card"));
+                                    docsData.put("2",getMap("Driving License"));
+                                    docsData.put("3",getMap("10th Certificate"));
+                                    docsData.put("4",getMap("12th Certificate"));
+                                    docsData.put("5",getMap("BCA Certificate"));
+                                    docsData.put("6",getMap("MCA Certificate"));
+                                    docsData.put("7",getMap("Resume"));
+                                    DatabaseReference docsRef=FirebaseDatabase.getInstance().getReference().child("docs").child(uid);
+                                    docsRef.updateChildren(docsData).addOnCompleteListener(new OnCompleteListener() {
+                                        @Override
+                                        public void onComplete(@NonNull Task task) {
+                                            Snackbar snackbar = Snackbar
+                                                    .make(linearLayout , "Successfully Registered !", Snackbar.LENGTH_SHORT);
+                                            snackbar.show();
+                                            Intent i=new Intent(RegisterOnceActivity.this,MainActivity.class);
+                                            startActivity(i);
+                                            finish();
+                                        }
+                                    });
                                 }
                             });
                         }
@@ -182,6 +197,12 @@ public class RegisterOnceActivity extends AppCompatActivity {
                 demoDownload.execute();
             }
         });
+    }
+    Map getMap(String name){
+        Map innerNode=new HashMap();
+        innerNode.put("name",name);
+        innerNode.put("url","no_url");
+        return innerNode;
     }
     private void extractAllData() {
         s_name_reg=name_reg.getText().toString();

@@ -77,7 +77,7 @@ public class StorageFragment extends Fragment {
             @Override
             protected void populateViewHolder(StorageViewHolder viewHolder, Storage model, int position) {
                 String url=model.getUrl();
-                viewHolder.setImage(getActivity(),url);
+                viewHolder.setImage(getActivity(),url,position);
                 viewHolder.setName(model.getName());
             }
         };
@@ -97,7 +97,7 @@ public class StorageFragment extends Fragment {
             mDoc=mView.findViewById(R.id.storage_image);
             mDocName=mView.findViewById(R.id.storage_name);
         }
-        void setImage(final Activity ctx, final String url){
+        void setImage(final Activity ctx, final String url, final int position){
             Picasso.with(ctx).load(url).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.mipmap.no_image)
                     .into(mDoc, new Callback() {
                         @Override
@@ -109,13 +109,14 @@ public class StorageFragment extends Fragment {
                             Picasso.with(ctx).load(url).placeholder(R.mipmap.no_image).into(mDoc);
                         }
                     });
-            mDoc.setOnClickListener(new View.OnClickListener() {
+            mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeSceneTransitionAnimation(ctx,
                             new Pair<View, String>(mView.findViewById(R.id.storage_image),"storage"),
                             new Pair<View, String>(mView.findViewById(R.id.storage_name),"s_name"));
                     Intent i=new Intent(ctx,StorageActivity.class);
+                    i.putExtra("pos",Integer.toString(position+1));
                     ctx.startActivity(i,optionsCompat.toBundle());
                 }
             });

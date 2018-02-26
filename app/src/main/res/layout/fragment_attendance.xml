@@ -5,9 +5,28 @@
     tools:context="com.example.ramakanta.theanonymousnetwork.AttendanceFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Attendance" />
+        >
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text=""
+                />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+    </TableLayout>
 
 </FrameLayout>
