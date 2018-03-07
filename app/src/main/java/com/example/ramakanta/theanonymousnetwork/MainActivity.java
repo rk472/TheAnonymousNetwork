@@ -176,6 +176,9 @@ public class MainActivity extends AppCompatActivity
                 case R.id.nav_attendance:
                     f = new AttendanceFragment();
                     break;
+                case R.id.nav_time_table:
+                    f = new TimeTableFragment();
+                    break;
 
             }
             fragmentTransaction = getSupportFragmentManager().beginTransaction();

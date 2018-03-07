@@ -9,10 +9,10 @@ tools:context="com.example.ramakanta.theanonymousnetwork.ChatActivity">
     <android.support.v7.widget.Toolbar
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/chat_app_bar"
+        android:elevation="6dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:theme="@style/noBar">
+        android:background="@color/colorPrimary">
 
     </android.support.v7.widget.Toolbar>
 

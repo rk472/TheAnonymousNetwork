@@ -52,7 +52,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setPost_image(final Context ctx, final String thumb_image) {
-        Picasso.with(ctx).load(thumb_image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.vector_add_photo)
+        Picasso.with(ctx).load(thumb_image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.blurred_image)
                 .into(post_image, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -60,7 +60,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
                     }
                     @Override
                     public void onError() {
-                        Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.vector_add_photo)
+                        Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.blurred_image)
                                 .into(post_image);
                     }
                 });
@@ -72,7 +72,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         post_like_button.setBackgroundResource(R.drawable.vector_not_liked);
     }
     public void setUser_image(final Context ctx, final String thumb_image) {
-        Picasso.with(ctx).load(thumb_image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.logo_def)
+        Picasso.with(ctx).load(thumb_image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.blurred_image)
                 .into(user_image, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -80,7 +80,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
                     }
                     @Override
                     public void onError() {
-                        Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.logo_def)
+                        Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.blurred_image)
                                 .into(user_image);
                     }
                 });

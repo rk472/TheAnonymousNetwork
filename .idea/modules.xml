@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TAN.iml" filepath="$PROJECT_DIR$/TAN.iml" />
+      <module fileurl="file://C:\Users\ramak\Documents\TheAnonymousNetwork\TAN.iml" filepath="C:\Users\ramak\Documents\TheAnonymousNetwork\TAN.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TheAnonymousNetwork.iml" filepath="$PROJECT_DIR$/TheAnonymousNetwork.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

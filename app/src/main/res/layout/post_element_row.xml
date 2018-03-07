@@ -5,8 +5,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:background="@color/colorLightGrey"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="4dp"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="2dp"
     app:cardUseCompatPadding="true">
 
     <LinearLayout
@@ -59,9 +59,11 @@
         </LinearLayout>
         <ImageView
             android:id="@+id/posted_image"
-            android:layout_width="340dp"
-            android:layout_height="340dp"
-            app:srcCompat="@drawable/vector_add_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="340dp"
+            android:maxHeight="340dp"
+            app:srcCompat="@drawable/blurred_image"
             android:layout_gravity="center_horizontal"
             android:visibility="gone"
             android:adjustViewBounds="true" />

@@ -34,6 +34,7 @@ public class HomeFragment extends Fragment {
     private AppCompatActivity main;
     private RecyclerView mContainer;
     private String name , dp_url;
+    private LinearLayoutManager linearLayoutManager;
     private String uId;
     private FirebaseAuth mAuth;
     private DatabaseReference mPostDB,mUserDB;
@@ -65,13 +66,14 @@ public class HomeFragment extends Fragment {
         });
         mAuth = FirebaseAuth.getInstance();
         uId = mAuth.getCurrentUser().getUid();
-        mPostDB = FirebaseDatabase.getInstance().getReference().child("posts");
+        mPostDB =  FirebaseDatabase.getInstance().getReference().child("posts");
         mPostDB.keepSynced(true);
         mContainer = root.findViewById(R.id.post_container_home);
         mContainer.setHasFixedSize(true);
-        mContainer.setLayoutManager(new LinearLayoutManager(main));
+        linearLayoutManager=new LinearLayoutManager(main);
+        mContainer.setLayoutManager(linearLayoutManager);
         FirebaseRecyclerAdapter<Post, PostViewHolder> adapter = new FirebaseRecyclerAdapter<Post, PostViewHolder>(
-                Post.class,R.layout.post_element_row,PostViewHolder.class,mPostDB.orderByChild("p_time")
+                Post.class,R.layout.post_element_row,PostViewHolder.class,mPostDB.orderByChild("p_order")
         ) {
             @Override
             protected void populateViewHolder(PostViewHolder viewHolder, final Post model, final int position) {
@@ -109,5 +111,11 @@ public class HomeFragment extends Fragment {
         };
         mContainer.setAdapter(adapter);
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        linearLayoutManager.scrollToPosition(0);
     }
 }
