@@ -38,12 +38,12 @@ class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHold
         String fromUserId=messages.getFrom();
         String myUid=mAuth.getCurrentUser().getUid();
         if(fromUserId.equals(myUid)){
-            holder.messageText.setBackgroundResource(R.drawable.message_text_background_2);
+            holder.messageText.setBackgroundResource(R.drawable.out_going_msg);
             holder.messageText.setTextColor(Color.BLACK);
             holder.messageHolder.setGravity(Gravity.RIGHT);
         }else{
-            holder.messageText.setBackgroundResource(R.drawable.message_text_background);
-            holder.messageText.setTextColor(Color.WHITE);
+            holder.messageText.setBackgroundResource(R.drawable.in_coming_msg);
+            holder.messageText.setTextColor(Color.BLACK);
             holder.messageHolder.setGravity(Gravity.LEFT);
         }
         holder.messageText.setText(messages.getMessage());

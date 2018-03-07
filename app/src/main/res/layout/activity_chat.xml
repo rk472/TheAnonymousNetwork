@@ -4,7 +4,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:background="@android:color/darker_gray"
+android:background="@drawable/chat_background"
 tools:context="com.example.ramakanta.theanonymousnetwork.ChatActivity">
     <android.support.v7.widget.Toolbar
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -30,7 +30,7 @@ tools:context="com.example.ramakanta.theanonymousnetwork.ChatActivity">
         android:layout_alignParentBottom="true"
         android:background="@drawable/ed_shape"
         android:orientation="horizontal"
-        android:padding="5dp"
+        android:padding="3dp"
         android:id="@+id/linearLayout">
         <EditText
             android:id="@+id/input_message"
