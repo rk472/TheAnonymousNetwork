@@ -1,10 +1,15 @@
 package com.example.ramakanta.theanonymousnetwork;
 
+import android.*;
+import android.Manifest;
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -21,7 +27,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -33,8 +41,11 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.Random;
 
 import id.zelory.compressor.Compressor;
+
+import static android.os.Environment.getExternalStorageDirectory;
 
 public class StorageActivity extends AppCompatActivity {
     private DatabaseReference docRef;
@@ -43,8 +54,9 @@ public class StorageActivity extends AppCompatActivity {
     private ImageView docImage;
     private TextView docName;
     private Button uploadButton,downloadButton;
-    private StorageReference docStore,thumbDocStore;
+    private StorageReference docStore,downloadStore;
     private ProgressDialog mProgress;
+    String downloadUrl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +67,6 @@ public class StorageActivity extends AppCompatActivity {
         //Toast.makeText(this, key, Toast.LENGTH_SHORT).show();
         docRef= FirebaseDatabase.getInstance().getReference().child("docs").child(uid).child(key);
         docStore= FirebaseStorage.getInstance().getReference().child("docs").child(uid);
-        thumbDocStore= FirebaseStorage.getInstance().getReference().child("docs_thumb").child(uid);
         docImage=findViewById(R.id.doc_image);
         docName=findViewById(R.id.doc_name);
         uploadButton=findViewById(R.id.upload_doc);
@@ -66,6 +77,7 @@ public class StorageActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String name=dataSnapshot.child("name").getValue().toString();
                 final String url=dataSnapshot.child("url").getValue().toString();
+                downloadUrl=dataSnapshot.child("full_url").getValue().toString();
                 docName.setText(name);
                 Picasso.with(StorageActivity.this).load(url).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.mipmap.no_image)
                         .into(docImage, new Callback() {
@@ -97,6 +109,40 @@ public class StorageActivity extends AppCompatActivity {
         downloadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (ActivityCompat.checkSelfPermission(StorageActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(StorageActivity.this,
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            1);
+                    return;
+                }
+                final ProgressDialog dialog=new ProgressDialog(StorageActivity.this);
+                downloadStore=FirebaseStorage.getInstance().getReferenceFromUrl(downloadUrl);
+                File root = getExternalStorageDirectory();
+                File dir=new File(root.getAbsolutePath(),"/TAN");
+                dir.mkdirs();
+                final File file = new File(dir,key+".jpg");
+                downloadStore.getFile(file).addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        dialog.setTitle("Downloading..");
+                        dialog.setMessage(taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount()*100+"%");
+                        dialog.show();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(StorageActivity.this, "Successfully downloaded to "+file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                        }
+                        dialog.dismiss();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(StorageActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
 
             }
         });

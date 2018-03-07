@@ -3,6 +3,8 @@
     package="com.example.ramakanta.theanonymousnetwork">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <application
         android:name=".TANOffline"
         android:allowBackup="true"
@@ -66,7 +68,7 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".ProfileActivity"
             android:theme="@style/noBar"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" ></activity>
     </application>
 
 </manifest>
