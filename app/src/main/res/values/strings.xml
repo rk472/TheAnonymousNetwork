@@ -94,4 +94,13 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_edit_profile">Edit Profile</string>
+    <string-array name="week">
+        <item>-select-</item>
+        <item>monday</item>
+        <item>tuesday</item>
+        <item>wednesday</item>
+        <item>thusday</item>
+        <item>friday</item>
+        <item>saturday</item>
+    </string-array>
 </resources>

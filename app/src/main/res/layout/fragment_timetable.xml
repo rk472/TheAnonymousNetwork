@@ -5,54 +5,25 @@
     android:background="@color/colorPrimary"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.ramakanta.theanonymousnetwork.AttendanceFragment">
-    <!--<TableLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="Hii There"
-                />
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_width="wrap_content"
-                android:text="Hello There"
-                />
-        </TableRow>
-    </TableLayout>   -->
-    <LinearLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:background="@color/colorAccentWhite">
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:layout_marginTop="40dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:id="@+id/animation_view"
-            android:layout_gravity="center_horizontal"
+        <Spinner
+            android:id="@+id/day_list"
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:layout_margin="20dp"
+            android:elevation="20dp"
+            android:dropDownSelector="@color/colorAccentWhite"
+            android:entries="@array/week"></Spinner>
+
+        <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="280dp"
-            app:lottie_fileName="construction_site.json"
-            app:lottie_loop="true"
-            app:lottie_autoPlay="true" />
+            android:layout_height="match_parent"
+            android:id="@+id/time_table_view"/>
 
-        <TextView
-            android:layout_gravity="center_horizontal"
-            android:textAlignment="center"
-            android:layout_marginTop="40dp"
-            android:textColor="@color/colorAccentWhite"
-            android:textSize="25dp"
-            android:fontFamily="@font/play_bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="This Page is \nUnder Construction"
-            />
     </LinearLayout>
 </FrameLayout>
