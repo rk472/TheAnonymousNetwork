@@ -3,8 +3,9 @@
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
+    android:id="@+id/chatContainer"
 android:layout_height="match_parent"
-android:background="@drawable/chat_background"
+android:background="#945454"
 tools:context="com.example.ramakanta.theanonymousnetwork.ChatActivity">
     <android.support.v7.widget.Toolbar
         xmlns:android="http://schemas.android.com/apk/res/android"

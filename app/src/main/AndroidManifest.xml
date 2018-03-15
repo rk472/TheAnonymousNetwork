@@ -70,6 +70,10 @@
         <activity android:name=".ProfileActivity"
             android:theme="@style/noBar"
             android:screenOrientation="portrait" ></activity>
+        <activity
+            android:name=".ChatThemeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/noBar"> </activity>
     </application>
 
 </manifest>

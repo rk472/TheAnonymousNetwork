@@ -3,6 +3,7 @@ package com.example.ramakanta.theanonymousnetwork;
 import
         android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -40,10 +43,13 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatActivity extends AppCompatActivity {
+    private static RelativeLayout chatContainer;
     private String messageUid,myUid;
+    private int currTheme;
     private DatabaseReference messageRef;
     private FirebaseAuth mAuth;
     private RecyclerView userMessagesList;
+    private static SharedPreferences pref;
     private LinearLayoutManager linearLayoutManager;
     private final List<AllChats> messageList=new ArrayList<>();
     private MessageAdapter messageAdapter;
@@ -52,10 +58,22 @@ public class ChatActivity extends AppCompatActivity {
     private TextView nameText;
     private CircleImageView dp;
     private Toolbar chatToolbar;
+
+    public static void changeTheme(int drawable) {
+        chatContainer.setBackgroundResource(drawable);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt("background",drawable);
+        editor.commit();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        chatContainer = findViewById(R.id.chatContainer);
+        pref = getApplicationContext().getSharedPreferences("ChatBackground", MODE_PRIVATE);
+        currTheme = pref.getInt("background",R.drawable.chat_background);
+        changeTheme(currTheme);
         messageAdapter=new MessageAdapter(messageList);
         mAuth=FirebaseAuth.getInstance();
         inputMessageText=findViewById(R.id.input_message);
@@ -203,5 +221,11 @@ public class ChatActivity extends AppCompatActivity {
                 });
             }
         }
+
+    public void startThemeSelect(View view) {
+        Intent intent = new Intent(ChatActivity.this, ChatThemeActivity.class);
+        intent.putExtra("currTheme",currTheme);
+        startActivity(intent);
     }
+}
 
