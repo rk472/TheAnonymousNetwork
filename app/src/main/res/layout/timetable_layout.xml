@@ -2,25 +2,26 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
-    <TextView
-        android:layout_width="165dp"
-        android:layout_height="wrap_content"
-        android:text="10.00-11.30"
-        android:textSize="25dp"
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        android:elevation="20dp"
-        android:background="#D3D3D3"
-        android:id="@+id/timetable_time"/>
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:elevation="20dp">
     <TextView
         android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:text="subject"
+        android:text="10.00-11.30"
         android:textSize="25dp"
-        android:layout_margin="10dp"
         android:padding="10dp"
-        android:elevation="20dp"
-        android:background="#D3D3D3"
-        android:id="@+id/timetable_subject"/>
+        android:textColor="@color/colorAccentWhite"
+        android:background="@drawable/table_item_shape"
+        android:id="@+id/timetable_time" />
+
+    <TextView
+        android:id="@+id/timetable_subject"
+        android:textColor="@color/colorAccentWhite"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/table_item_shape"
+        android:padding="10dp"
+        android:text="subject"
+        android:textSize="25dp" />
 </LinearLayout>

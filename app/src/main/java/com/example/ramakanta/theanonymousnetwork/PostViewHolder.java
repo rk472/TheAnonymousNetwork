@@ -33,6 +33,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         post_likes = mView.findViewById(R.id.posted_likes);
         post_time = mView.findViewById(R.id.posted_time);
         post_like_button = mView.findViewById(R.id.post_like_button);
+        this.setIsRecyclable(false);
     }
 
     public void setUser_name(String name) {

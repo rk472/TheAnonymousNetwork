@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimaryDark"
+    tools:context="com.example.ramakanta.theanonymousnetwork.DayAttendanceActivity">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/day_attendance_date"
+            android:text="26.12.1996"
+            android:gravity="center"
+            android:textColor="@color/colorAccentWhite"
+            android:textSize="25dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/day_attendance_day"
+        android:text="Thusday"
+        android:gravity="center"
+        android:textColor="@color/colorAccentWhite"
+        android:textSize="25dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/day_attendance_error"
+        android:text="Error"
+        android:gravity="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="25dp"
+        android:visibility="gone"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/day_attendance_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

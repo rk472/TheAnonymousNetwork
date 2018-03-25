@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    >
+   <TextView
+       android:id="@+id/day_attendance_time"
+       android:layout_width="130dp"
+       android:layout_height="wrap_content"
+       android:text="10.00-11.30"
+       android:textSize="20dp"
+       android:padding="10dp"
+       android:textColor="@color/colorAccentWhite"
+       android:background="@drawable/table_item_shape"
+       android:textAlignment="center"/>
+    <TextView
+        android:layout_width="130dp"
+        android:id="@+id/day_attendance_subject"
+        android:layout_height="wrap_content"
+        android:text="subject"
+        android:textSize="20dp"
+        android:padding="10dp"
+        android:background="@drawable/table_item_shape"
+        android:textColor="@color/colorAccentWhite"
+        android:textAlignment="center"/>
+    <TextView
+        android:layout_width="90dp"
+        android:id="@+id/day_attendance_attendance"
+        android:textColor="@color/colorAccentWhite"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="20dp"
+        android:text="Att"
+        android:textAlignment="center"
+        android:background="@drawable/table_item_shape"/>
+
+</LinearLayout>

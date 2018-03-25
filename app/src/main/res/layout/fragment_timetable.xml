@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/colorAccentWhite">
+        android:background="@color/colorAccentWhite"
+        android:backgroundTint="@color/colorPrimaryDark">
 
         <Spinner
             android:id="@+id/day_list"
@@ -17,8 +18,9 @@
             android:layout_height="30dp"
             android:layout_margin="20dp"
             android:elevation="20dp"
-            android:dropDownSelector="@color/colorAccentWhite"
-            android:entries="@array/week"></Spinner>
+            android:dropDownSelector="@color/colorAccent"
+            android:entries="@array/week"
+            android:background="@color/colorAccentWhite"></Spinner>
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
