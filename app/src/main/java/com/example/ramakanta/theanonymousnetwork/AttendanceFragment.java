@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -83,27 +84,34 @@ public class AttendanceFragment extends Fragment {
         dayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(getActivity(),DayAttendanceActivity.class);
-                String date=dateText.getText().toString();
-                i.putExtra("batch",batch);
-                i.putExtra("roll",roll.split("0")[1]);
-                i.putExtra("date",date);
-                int y=Integer.parseInt(date.split("/")[2]);
-                int m=Integer.parseInt(date.split("/")[1]);
-                int d=Integer.parseInt(date.split("/")[0]);
-                String day=new SimpleDateFormat("EEEE").format(new Date(y,m,d-1));
-                i.putExtra("day",day);
-                startActivity(i);
+                if(!TextUtils.isEmpty(dateText.getText())) {
+                    Intent i = new Intent(getActivity(), DayAttendanceActivity.class);
+                    String date = dateText.getText().toString();
+                    i.putExtra("batch", batch);
+                    i.putExtra("roll", Integer.parseInt(roll.split("0")[1]));
+                    i.putExtra("date", date);
+                    int y = Integer.parseInt(date.split("/")[2]);
+                    int m = Integer.parseInt(date.split("/")[1]);
+                    int d = Integer.parseInt(date.split("/")[0]);
+                    String day = new SimpleDateFormat("EEEE").format(new Date(y, m, d - 1));
+                    i.putExtra("day", day);
+                    startActivity(i);
+                }
             }
         });
         monthButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!TextUtils.isEmpty(dateText.getText())) {
+
                     Intent i = new Intent(getActivity(), MonthAttendanceActivity.class);
+                    Calendar c1=Calendar.getInstance();
+                    int m=c1.get(Calendar.MONTH);
+                    i.putExtra("roll", Integer.parseInt(roll.split("0")[1]));
+                    i.putExtra("month",m);
+                    i.putExtra("year",c1.get(Calendar.YEAR));
+                    i.putExtra("batch", batch);
                     startActivity(i);
                 }
-            }
         });
 
         return mView;

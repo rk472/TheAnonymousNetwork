@@ -37,7 +37,7 @@ public class DayAttendanceActivity extends AppCompatActivity {
         String d=date.split("/")[0];
         String m=date.split("/")[1];
         String y=date.split("/")[2];
-        roll=getIntent().getExtras().getString("roll");
+        roll=Integer.toString(getIntent().getExtras().getInt("roll"));
         day=getIntent().getExtras().getString("day");
         dateText.setText(date);
         dayText.setText(day);

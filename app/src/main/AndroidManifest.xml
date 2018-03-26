@@ -70,6 +70,8 @@
         <activity android:name=".ProfileActivity"
             android:theme="@style/noBar"
             android:screenOrientation="portrait" ></activity>
+        <activity android:name=".DayAttendanceActivity"></activity>
+        <activity android:name=".MonthAttendanceActivity"></activity>
     </application>
 
 </manifest>

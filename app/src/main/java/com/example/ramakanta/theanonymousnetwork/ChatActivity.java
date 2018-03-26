@@ -223,9 +223,9 @@ public class ChatActivity extends AppCompatActivity {
         }
 
     public void startThemeSelect(View view) {
-        Intent intent = new Intent(ChatActivity.this, ChatThemeActivity.class);
+        /*ntent intent = new Intent(ChatActivity.this, ChatThemeActivity.class);
         intent.putExtra("currTheme",currTheme);
-        startActivity(intent);
+        startActivity(intent);*/
     }
 }
 

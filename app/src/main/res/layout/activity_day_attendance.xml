@@ -32,6 +32,42 @@
         android:textColor="@color/colorAccent"
         android:textSize="25dp"
         android:visibility="gone"/>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        >
+        <TextView
+            android:layout_width="130dp"
+            android:layout_height="match_parent"
+            android:text="Timing"
+            android:textSize="20dp"
+            android:padding="10dp"
+            android:textColor="@color/colorAccentWhite"
+            android:background="@drawable/table_item_shape"
+            android:textAlignment="center"/>
+        <TextView
+            android:layout_width="110dp"
+            android:id="@+id/day_attendance_subject"
+            android:layout_height="match_parent"
+            android:text="subject"
+            android:textSize="20dp"
+            android:padding="10dp"
+            android:background="@drawable/table_item_shape"
+            android:textColor="@color/colorAccentWhite"
+            android:textAlignment="center"/>
+        <TextView
+            android:layout_width="130dp"
+            android:id="@+id/day_attendance_attendance"
+            android:textColor="@color/colorAccentWhite"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:textSize="20dp"
+            android:text="Attendance"
+            android:textAlignment="center"
+            android:background="@drawable/table_item_shape"/>
+
+    </LinearLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/day_attendance_list"
         android:layout_width="match_parent"
