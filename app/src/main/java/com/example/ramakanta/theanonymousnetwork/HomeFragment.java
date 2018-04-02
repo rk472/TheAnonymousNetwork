@@ -1,5 +1,6 @@
 package com.example.ramakanta.theanonymousnetwork;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,21 +11,32 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.io.PipedOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private boolean status;
     private AppCompatActivity main;
     private RecyclerView mContainer;
@@ -33,9 +45,8 @@ public class HomeFragment extends Fragment {
     private String uId;
     private FirebaseAuth mAuth;
     private DatabaseReference mPostDB,mUserDB;
-    public HomeFragment() {
-        // Required empty public constructor
-    }
+    List<Post> l;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,46 +70,34 @@ public class HomeFragment extends Fragment {
         mContainer.setHasFixedSize(true);
         linearLayoutManager=new LinearLayoutManager(main);
         mContainer.setLayoutManager(linearLayoutManager);
-        FirebaseRecyclerAdapter<Post, PostViewHolder> adapter = new FirebaseRecyclerAdapter<Post, PostViewHolder>(
-                Post.class,R.layout.post_element_row,PostViewHolder.class,mPostDB.orderByChild("p_order")
-        ) {
+        l=new ArrayList<>();
+        mPostDB.addValueEventListener(new ValueEventListener() {
             @Override
-            protected void populateViewHolder(PostViewHolder viewHolder, final Post model, final int position) {
-                final PostViewHolder holder = viewHolder;
-                String user_id = model.getP_user();
-                mUserDB = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
-                mUserDB.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        name = dataSnapshot.child("u_name").getValue().toString();
-                        dp_url = dataSnapshot.child("u_thumb_image").getValue().toString();
-                        holder.setUser_image(getActivity().getApplicationContext(),dp_url);
-                        holder.setUser_name(name);
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
-                viewHolder.setPost_caption(model.getP_caption());
-                viewHolder.setPost_likes(model.getP_like());
-                viewHolder.setPost_time(LastSeen.getTimeAgo(model.getP_time()));
-
-                if(model.getP_image().equalsIgnoreCase("no_image")){
-                }else{
-                    viewHolder.post_image.setVisibility(View.VISIBLE);
-                    viewHolder.setPost_image(getActivity().getApplicationContext(),model.getP_image());
-                }
-                viewHolder.post_like_button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
+            public void onDataChange(DataSnapshot d) {
+              for(DataSnapshot dataSnapshot:d.getChildren()){
+                  String image=dataSnapshot.child("p_image").getValue().toString();
+                  String user=dataSnapshot.child("p_user").getValue().toString();
+                  String caption=dataSnapshot.child("p_caption").getValue().toString();
+                  int likes=Integer.parseInt(dataSnapshot.child("p_like").getValue().toString());
+                  long order=Long.parseLong(dataSnapshot.child("p_order").getValue().toString());
+                  long time=Long.parseLong(dataSnapshot.child("p_time").getValue().toString());
+                  Post p=new Post(image,user,caption,likes,time);
+                  l.add(p);
+              }
+                PostAdapter adapter=new PostAdapter(l,getContext());
+                mContainer.setAdapter(adapter);
+                
             }
-        };
-        mContainer.setAdapter(adapter);
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         return root;
     }
+
 
     @Override
     public void onResume() {

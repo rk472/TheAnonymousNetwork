@@ -4,7 +4,7 @@ public class Post {
     String p_image,p_user,p_caption;
     int p_like;
     long p_time;
-    long p_order;
+
 
     public Post(String p_image, String p_user, String p_caption, int p_like, long p_time) {
         this.p_image = p_image;

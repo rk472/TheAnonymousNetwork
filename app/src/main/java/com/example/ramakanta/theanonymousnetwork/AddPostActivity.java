@@ -114,6 +114,7 @@ public class AddPostActivity extends AppCompatActivity {
     public void select_image(View view) {
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
+                .setAspectRatio(1,1)
                 .start(AddPostActivity.this);
     }
 
