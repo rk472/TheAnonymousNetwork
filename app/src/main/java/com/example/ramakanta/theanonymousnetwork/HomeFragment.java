@@ -24,6 +24,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
@@ -69,11 +70,12 @@ public class HomeFragment extends Fragment {
         mContainer.setHasFixedSize(true);
         linearLayoutManager=new LinearLayoutManager(main);
         mContainer.setLayoutManager(linearLayoutManager);
+        Query q=mPostDB.orderByChild("p_order");
         FirebaseRecyclerAdapter<Post,PostViewHolder> f=new FirebaseRecyclerAdapter<Post, PostViewHolder>(
                 Post.class,
                 R.layout.post_element_row,
                 PostViewHolder.class,
-                mPostDB
+                q
         ) {
             @Override
             protected void populateViewHolder(final PostViewHolder viewHolder, final Post model, final int position) {

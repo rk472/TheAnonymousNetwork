@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity
                     thumb_bitmap=new Compressor(this)
                             .setMaxHeight(200)
                             .setMaxHeight(200)
-                            .setQuality(50)
+                            .setQuality(20)
                             .compressToBitmap(thumb_filePath);
                 }catch (Exception e){
                     e.printStackTrace();
