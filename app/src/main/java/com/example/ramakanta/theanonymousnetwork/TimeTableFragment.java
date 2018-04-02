@@ -3,6 +3,7 @@ package com.example.ramakanta.theanonymousnetwork;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,6 +38,8 @@ public class TimeTableFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        NavigationView navigationView = (NavigationView) main.findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_time_table);
         main=(AppCompatActivity)getActivity();
         main.getSupportActionBar().setTitle("Time-Table");
         root=inflater.inflate(R.layout.fragment_timetable, container, false);

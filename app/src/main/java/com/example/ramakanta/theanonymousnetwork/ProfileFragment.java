@@ -39,10 +39,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileFragment extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-
     private FirebaseAuth mAuth;
     private TextView nameProf,livesProf,joinedProf,rollProf,bioProf,genderProf,dobProf,mailProf,phoneProf;
     private CircleImageView logoProf;
@@ -52,26 +48,13 @@ public class ProfileFragment extends Fragment {
     private ImageButton uploadImage;
     private AppCompatActivity main;
 
-    private String mParam1;
-    private String mParam2;
-
-    public ProfileFragment() {
-
-    }
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         main=(AppCompatActivity)getActivity();
         main.getSupportActionBar().setTitle("Profile");
+        NavigationView navigationView = (NavigationView) main.findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_profile);
         View root=inflater.inflate(R.layout.fragment_profile, container, false);
         mProgress = new ProgressDialog(main);
         mProgress.setTitle("Please Wait");

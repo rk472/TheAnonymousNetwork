@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -48,6 +49,8 @@ public class AttendanceFragment extends Fragment {
                              Bundle savedInstanceState) {
         main=(AppCompatActivity)getActivity();
         main.getSupportActionBar().setTitle("Attendance");
+        NavigationView navigationView = (NavigationView) main.findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_attendance);
         // Inflate the layout for this fragment
         mView=inflater.inflate(R.layout.fragment_attendance, container, false);
         mAuth=FirebaseAuth.getInstance();

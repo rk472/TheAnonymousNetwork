@@ -63,9 +63,8 @@
             android:layout_height="wrap_content"
             android:maxWidth="340dp"
             android:maxHeight="340dp"
-            app:srcCompat="@drawable/blurred_image"
+            app:srcCompat="@drawable/loading"
             android:layout_gravity="center_horizontal"
-            android:visibility="gone"
             android:adjustViewBounds="true" />
         <LinearLayout
             android:id="@+id/post_like_bar"
@@ -73,11 +72,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            android:padding="5dp">
+            android:padding="5dp"
+            android:gravity="center_vertical">
 
             <com.like.LikeButton
                 app:icon_type="heart"
-                app:icon_size="25dp"
+                app:icon_size="20dp"
                 android:id="@+id/post_like_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

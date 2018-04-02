@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
@@ -40,12 +41,6 @@ public class StorageFragment extends Fragment {
     private DatabaseReference storageRef;
     private FirebaseAuth mAuth;
     private RecyclerView storageCard;
-
-
-
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,6 +48,8 @@ public class StorageFragment extends Fragment {
         root=inflater.inflate(R.layout.fragment_storage, container, false);
         main=(AppCompatActivity)getActivity();
         main.getSupportActionBar().setTitle("Storage");
+        NavigationView navigationView = (NavigationView) main.findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_storage);
         mAuth=FirebaseAuth.getInstance();
         storageRef= FirebaseDatabase.getInstance().getReference().child("docs").child(mAuth.getCurrentUser().getUid());
         storageRef.keepSynced(true);

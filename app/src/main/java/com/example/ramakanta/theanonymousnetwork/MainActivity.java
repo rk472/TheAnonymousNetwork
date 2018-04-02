@@ -108,6 +108,10 @@ public class MainActivity extends AppCompatActivity
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+        Fragment f=new HomeFragment();
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_container, f,"home");
+        fragmentTransaction.commit();
     }
     @Override
     public void onBackPressed() {
@@ -115,7 +119,23 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if(getSupportFragmentManager().findFragmentById(R.id.main_container).getTag().equals("home"))
+                new AlertDialog.Builder(this)
+                        .setTitle("Exit")
+                        .setMessage("Do You really want to Exit ?")
+                        .setPositiveButton("Yes, Sure", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                MainActivity.super.onBackPressed();
+                            }
+                        }).setNegativeButton("No, Don't",null).show();
+
+            else{
+                Fragment f=new HomeFragment();
+                fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.main_container, f,"home");
+                fragmentTransaction.commit();
+            }
         }
     }
     @Override
@@ -155,6 +175,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        String tag="other";
         Fragment f = null;
         if(id==R.id.nav_settings){
             Intent i=new Intent(this,SettingsActivity.class);
@@ -163,6 +184,7 @@ public class MainActivity extends AppCompatActivity
             switch (id) {
                 case R.id.nav_home:
                     f = new HomeFragment();
+                    tag="home";
                     break;
                 case R.id.nav_profile:
                     f = new ProfileFragment();
@@ -182,7 +204,7 @@ public class MainActivity extends AppCompatActivity
 
             }
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.main_container, f);
+            fragmentTransaction.replace(R.id.main_container, f,tag);
             fragmentTransaction.commit();
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

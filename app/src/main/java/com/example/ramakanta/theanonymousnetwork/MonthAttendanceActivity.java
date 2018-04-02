@@ -41,43 +41,50 @@ public class MonthAttendanceActivity extends AppCompatActivity {
         monthName.setText(month);
         roll=Integer.toString(getIntent().getExtras().getInt("roll"));
         subjectRef=FirebaseDatabase.getInstance().getReference().child("subjects").child(batch);
-        subjectRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                attList=new ArrayList<>();
-                for(final DataSnapshot d:dataSnapshot.getChildren()){
-                    final String sub=d.getKey();
-                    //Toast.makeText(MonthAttendanceActivity.this, sub+" "+batch+" "+year+" "+(m+1), Toast.LENGTH_SHORT).show();
-                    attRef= FirebaseDatabase.getInstance().getReference().child("attendance").child("monthly").child(batch).child(year).child(Integer.toString(m+1)).child(sub);
-                    attRef.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            long t=dataSnapshot.child("total").getValue(Long.class);
-                            long att=dataSnapshot.child(roll).getValue(Long.class);
-                            MonthlyAttendance m=new MonthlyAttendance(t,att,sub);
-                            attList.add(m);
-                            MonthlyAdapter monthlyAdapter=new MonthlyAdapter(attList);
-                            monthList.setAdapter(monthlyAdapter);
-                            attRef.removeEventListener(this);
+        try {
+            subjectRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    attList = new ArrayList<>();
+                    for (final DataSnapshot d : dataSnapshot.getChildren()) {
+                        final String sub = d.getKey();
+                        //Toast.makeText(MonthAttendanceActivity.this, sub+" "+batch+" "+year+" "+(m+1), Toast.LENGTH_SHORT).show();
+                        attRef = FirebaseDatabase.getInstance().getReference().child("attendance").child("monthly").child(batch).child(year).child(Integer.toString(m + 1)).child(sub);
+                        attRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.child("total").getValue()!=null) {
+                                    long t = dataSnapshot.child("total").getValue(Long.class);
+                                    long att = dataSnapshot.child(roll).getValue(Long.class);
+                                    MonthlyAttendance m = new MonthlyAttendance(t, att, sub);
+                                    attList.add(m);
+                                    MonthlyAdapter monthlyAdapter = new MonthlyAdapter(attList);
+                                    monthList.setAdapter(monthlyAdapter);
+                                    attRef.removeEventListener(this);
+                                }else{
+                                    Toast.makeText(MonthAttendanceActivity.this, "No Records of "+sub+" For This Month..", Toast.LENGTH_SHORT).show();
+                                }
+                            }
 
-                        }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                            }
+                        });
+                        subjectRef.removeEventListener(this);
 
-                        }
-                    });
-                    subjectRef.removeEventListener(this);
 
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
                 }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+            });
+        }catch (Exception ee){
+            Toast.makeText(this, "No records found", Toast.LENGTH_SHORT).show();
+        }
 
 
 

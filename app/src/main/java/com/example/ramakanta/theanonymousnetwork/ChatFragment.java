@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,14 +32,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ChatFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     private View root;
     private AppCompatActivity main;
     private FloatingActionButton addChat;
@@ -46,20 +40,6 @@ public class ChatFragment extends Fragment {
     private FirebaseAuth mAuth;
     private String myUid;
     private RecyclerView allChats;
-    public ChatFragment() {
-        // Required empty public constructor
-    }
-
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,6 +47,8 @@ public class ChatFragment extends Fragment {
         main=(AppCompatActivity)getActivity();
         root=inflater.inflate(R.layout.fragment_chat, container, false);
         main.getSupportActionBar().setTitle("Chats");
+        NavigationView navigationView = (NavigationView) main.findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_message);
 
         addChat=root.findViewById(R.id.add_chat);
         addChat.setOnClickListener(new View.OnClickListener() {

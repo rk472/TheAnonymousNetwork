@@ -176,6 +176,8 @@ public class AddPostActivity extends AppCompatActivity {
                         mDatabase.child(pId).updateChildren(data, new DatabaseReference.CompletionListener() {
                             @Override
                             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                DatabaseReference likesRef=FirebaseDatabase.getInstance().getReference().child("likes").child(pId).child("demo");
+                                likesRef.setValue(0);
                                 Toast.makeText(AddPostActivity.this, "Post Created Successfully...", Toast.LENGTH_SHORT).show();
                                 mProgress.dismiss();
                                 finish();
@@ -189,6 +191,8 @@ public class AddPostActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                         Toast.makeText(AddPostActivity.this, "Post Created Successfully...", Toast.LENGTH_SHORT).show();
+                        DatabaseReference likesRef=FirebaseDatabase.getInstance().getReference().child("likes").child(pId).child("demo");
+                        likesRef.setValue(0);
                         mProgress.dismiss();
                         finish();
                     }
